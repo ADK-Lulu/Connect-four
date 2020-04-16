@@ -30,4 +30,34 @@ module.exports = function () {
     );
   });
 
+  this.When(/^the argument is anything else but (\d+) or (\d+)$/, function (arg1, arg2) {
+    // Write code here that turns the phrase above into concrete actions
+  });
+
+  this.Then(/^the machinge will throw “player must be (\d+) or (\d+)”$/, function (arg1, arg2) {
+    // Write code here that turns the phrase above into concrete actions
+  });
+
+  this.When(/^player (\d+) has droped a disc$/, function (arg1) {
+    // Write code here that turns the phrase above into concrete actions
+  });
+
+
+  this.Then(/^the machine should display 'Röds tur\.\.\.'$/, function () {
+    // Write code here that turns the phrase above into concrete actions
+  });
+
+  //SKA DEN HÄR VARA MED?!
+  this.Given(/^a new Board is created\.$/, function () {
+    // Write code here that turns the phrase above into concrete actions
+  });
+
+  this.When(/^player (\d+) has droped a disc$/, function (arg1) {
+    // Write code here that turns the phrase above into concrete actions
+  });
+
+  this.Then(/^the machine should display 'Guls tur\.\.\.'$/, function () {
+    // Write code here that turns the phrase above into concrete actions
+  });
+
 }
