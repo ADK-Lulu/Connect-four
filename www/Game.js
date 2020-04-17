@@ -1,12 +1,16 @@
 module.exports = class Game {
 
   constructor() {
-    
+
     this.addEventListener();
     this.start();
   }
 
-  start() { }
+  start() { 
+    let board = new Board(this);
+    
+  }
+  
 
   tellTurn(player) { }
 
@@ -16,5 +20,6 @@ module.exports = class Game {
 
 
 }
+
 // make it possible to test on backend
 //if (typeof global !== 'undefined') { global.Game = Game };
