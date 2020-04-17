@@ -6,10 +6,31 @@ Feature: Play Connect 4
   # Some random scenarios (out of the many needed)
   # (these have no When - but there will be plenty that have)
 
-  Scenario: A new Game creates a new board
+  Background:
     Given that a new Game is created
+    And a new Board is created.
+
+
+  Scenario: A new Game creates a new board
     Then it should create a new Board
 
   Scenario: A board adds 42 divs to the .board element
-    Given that a new Board is created
     Then it should render 42 divs as children of the board element
+
+  #(tell-turn-player() ska ta emot inargumentet player som ska vara ett heltal (1 eller 2).
+
+
+
+  Scenario: User tries to call tellTurn() with unvalid value
+    When the argument is anything else but 1 or 2
+    Then the machinge will throw “player must be 1 or 2”
+
+  Scenario Outline: Machine displays <message> when it is next users time to play
+    When <player> has droped a disc
+    Then the machine should display <message>
+
+    Examples:
+      | player   | message       |
+      | player 1 | 'Röds tur...' |
+      | player 2 | 'Guls tur...' |
+
