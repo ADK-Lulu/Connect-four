@@ -1,4 +1,4 @@
-module.exports = class Game {
+class Game {
 
   constructor() {
 
@@ -6,15 +6,15 @@ module.exports = class Game {
     this.start();
   }
 
-  start() { 
+  start() {
     let board = new Board(this);
-    
-  }
-  
 
-  tellTurn(player) { 
+  }
+
+
+  tellTurn(player) {
     let $message = document.querySelector('.message');
-    
+
     if (player !== 1 || player !== 2) {
       return 'Player must be 1 or 2';
     }
@@ -24,7 +24,7 @@ module.exports = class Game {
     if (player === 2) {
       return document.querySelector('.message').innerHTML = 'Guls tur';
     }
-       
+
   }
 
   over(won) { }
@@ -35,4 +35,4 @@ module.exports = class Game {
 }
 
 // make it possible to test on backend
-//if (typeof global !== 'undefined') { global.Game = Game };
+if (typeof global !== 'undefined') { global.Game = Game };

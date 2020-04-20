@@ -1,10 +1,28 @@
-module.exports = class Board {
+class Board {
 
   constructor(game) {
+    if (!(game instanceof Game)) {
+      throw (new Error("game must be an instance of Game"))
+    }
+    this.game = game;
+    let matrix = [
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0]
+    ];
+    let currentPlayer = 1;
+    let playInProgress = false;
+    this.addEventListener();
+    this.render();
+    game.tellTurn(currentPlayer);
+  }
+  async makeMove(column) {
 
 
   }
-  async makeMove(column) { }
 
   winCheck() { }
 
@@ -19,4 +37,4 @@ module.exports = class Board {
 }
 
 // make it possible to test on backend
-//if (typeof global !== 'undefined') { global.Board = Board };
+if (typeof global !== 'undefined') { global.Board = Board };
