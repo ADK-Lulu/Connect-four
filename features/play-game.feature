@@ -19,7 +19,7 @@ Feature: Play Connect 4
     Then it should render 42 divs as children of the board element
 
   #(tellTurn() ska ta emot inargumentet player som ska vara ett heltal (1 eller 2).
-  #TODO: kolla det positiva utfallet av player som 1 resp 2
+
   Scenario Outline: User tries to call tellTurn() with <unvalid> value
     When the argument is <unvalid>
     Then the machine will throw <message>

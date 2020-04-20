@@ -46,19 +46,21 @@ module.exports = function () {
     currentPlayer = decimal;
   });
 
-
+  let playerOne;
   this.Then(/^the machine will throw "([^"]*)"$/, function (messagetoThrow) {
-    let playerOne = new Board()
+    playerOne = new Board()
     expect(() => playerOne.tellTurn(currentPlayer)).to.equal(messagetoThrow,
 
       'The expected message is not shown'
     )
   });
 
-  let whosTurn;
 
   this.When(/^player (\d+) has droped a disc$/, function (player) {
-    whosTurn = this.tellTurn(player);
+    expect(() => playerOne.tellTurn(player)).to.not.throw(
+
+    );
+
 
   });
 
