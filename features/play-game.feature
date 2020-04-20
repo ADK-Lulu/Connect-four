@@ -8,29 +8,34 @@ Feature: Play Connect 4
 
   Background:
     Given that a new Game is created
-    And a new Board is created.
+    And a new Board is created
 
 
   Scenario: A new Game creates a new board
     Then it should create a new Board
 
+
   Scenario: A board adds 42 divs to the .board element
     Then it should render 42 divs as children of the board element
 
-  #(tell-turn-player() ska ta emot inargumentet player som ska vara ett heltal (1 eller 2).
+  #(tellTurn() ska ta emot inargumentet player som ska vara ett heltal (1 eller 2).
+  #TODO: kolla det positiva utfallet av player som 1 resp 2
+  Scenario Outline: User tries to call tellTurn() with <unvalid> value
+    When the argument is <unvalid>
+    Then the machine will throw <message>
 
-
-
-  Scenario: User tries to call tellTurn() with unvalid value
-    When the argument is anything else but 1 or 2
-    Then the machinge will throw “player must be 1 or 2”
+    Examples:
+      | unvalid   | message                 |
+      | "elefant" | "player must be 1 or 2" |
+      | 3         | "player must be 1 or 2" |
+      | 1.5       | "player must be 1 or 2" |
 
   Scenario Outline: Machine displays <message> when it is next users time to play
-    When <player> has droped a disc
+    When player <playerNumber> has droped a disc
     Then the machine should display <message>
 
     Examples:
-      | player   | message       |
-      | player 1 | 'Röds tur...' |
-      | player 2 | 'Guls tur...' |
+      | playerNumber | message       |
+      | 1            | "Röds tur..." |
+      | 2            | "Guls tur..." |
 
