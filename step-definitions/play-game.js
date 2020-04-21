@@ -6,6 +6,8 @@ module.exports = function () {
 
   let game;
   let currentPlayer;
+  
+  
 
   this.Given(/^that a new Game is created$/, function () {
     game = new Game();
@@ -70,6 +72,53 @@ module.exports = function () {
     )
   });
 
+  //Här börjar step-difinitions för scenario constructor(game)
 
+  this.Given(/^that game is an instance of class Game$/, function () {
+    expect(game).to.be.an.instanceof(Game,
+      'game must be an instance of Game')
+  });
 
+  this.When(/^game is set to the value of constructor-game$/, function () {
+    expect(() => (this.game).to.equal(game))
+  });
+
+  this.When(/^matrix should be set to an array of (\d+) elements$/, function (columns) {
+    matrix = game.matrix;
+    expect(this.matrix.length).to.equal(columns);
+
+  });
+  
+  this.When(/^each element should be set to a array of (\d+) elements$/, function (row) {
+    for (let column of this.matrix) {
+      for (let rows of column) {
+        expect(rows.length).to.equal(row);
+      }
+    }
+  });
+
+  this.When(/^each element should have the value of (\d+)$/, function (element) {
+    for (let elements of rows) {
+      expect(element).to.equal(0);
+    };
+  });
+
+  this.When(/^currentPlayer should be set to the value (\d+)$/, function (player) {
+    expect(()=>(this.currentPlayer).to.equal(player))
+  });
+
+  this.When(/^playInProgress should be set to false$/, function () {
+    expect(()=>(game.playInProgress()).to.equal(false))
+  });
+
+  this.Then(/^the method should call addEventListener\(\) and render\(\)$/, function () {
+    game.addEventListener();
+    game.render();
+  });
+
+  this.Then(/^it should call tellTurn\(\) with currentPlayer as a argument$/, function () {
+    game.tellTurn(currentPlayer);
+  });
+
+  
 }

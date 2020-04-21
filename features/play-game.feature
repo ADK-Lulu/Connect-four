@@ -39,3 +39,14 @@ Feature: Play Connect 4
       | 1            | "Röds tur..." |
       | 2            | "Guls tur..." |
 
+ #scenario för constuctor(game)
+  Scenario: A new game is started
+    Given that game is an instance of class Game
+    When game is set to the value of constructor-game
+    And matrix should be set to an array of 6 elements
+    And each element should be set to a array of 7 elements
+    And each element should have the value of 0
+    And currentPlayer should be set to the value 1
+    And playInProgress should be set to false
+    Then the method should call addEventListener() and render()
+    And it should call tellTurn() with currentPlayer as a argument
