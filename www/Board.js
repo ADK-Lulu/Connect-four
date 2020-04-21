@@ -5,6 +5,7 @@ class Board {
       throw (new Error("game must be an instance of Game"))
     }
     this.game = game;
+
     let matrix = [
       [0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
