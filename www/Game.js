@@ -4,10 +4,11 @@ class Game {
 
     this.addEventListener();
     this.start();
+
   }
 
   start() {
-    let board = new Board(this);
+    this.board = new Board(this);
 
   }
 
