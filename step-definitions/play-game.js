@@ -4,8 +4,10 @@ require('./_include-all')();
 
 module.exports = function () {
 
-  let game;
   let currentPlayer;
+  
+  let game = new Game();
+  let board = new Board(game);
 
   this.Given(/^that a new Game is created$/, function () {
     game = new Game();
@@ -77,23 +79,23 @@ module.exports = function () {
     expect(() => (this.game).to.equal(game))
   });
 
-  this.When(/^matrix should be set to an array of (\d+) elements$/, function (columns) {
-    matrix = game.matrix;
-    expect(this.matrix.length).to.equal(columns);
-
+  this.When(/^matrix should be set to an array of (\d+) elements$/, function (rows) {
+    expect(board.matrix.length).to.equal(+rows);
   });
-
-  this.When(/^each element should be set to a array of (\d+) elements$/, function (row) {
-    for (let column of this.matrix) {
-      for (let rows of column) {
-        expect(rows.length).to.equal(row);
-      }
+  
+  this.When(/^each element should be set to a array of (\d+) elements$/, function (column) {
+    for (let column of board.matrix) {
+      column = board.matrix[0].length
+      expect(column).to.equal(column);
     }
+     
   });
 
   this.When(/^each element should have the value of (\d+)$/, function (element) {
-    for (let elements of rows) {
-      expect(element).to.equal(0);
+    for (let rows of board.matrix) {
+      for (let column of board.matrix) {
+        expect(+element).to.equal(0);
+      }
     };
   });
 
@@ -106,12 +108,13 @@ module.exports = function () {
   });
 
   this.Then(/^the method should call addEventListener\(\) and render\(\)$/, function () {
-    game.addEventListener();
-    game.render();
+    expect(() => game.addEventListener(), board.render())
+    
   });
 
   this.Then(/^it should call tellTurn\(\) with currentPlayer as a argument$/, function () {
-    game.tellTurn(currentPlayer);
+    currentPlayer = 1; 
+    expect(()=>game.tellTurn(currentPlayer))
   });
 
 
