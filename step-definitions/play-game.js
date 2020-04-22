@@ -108,11 +108,13 @@ module.exports = function () {
   });
 
   this.Then(/^the method should call addEventListener\(\) and render\(\)$/, function () {
-   
+    expect(() => game.addEventListener(), board.render())
+    
   });
 
   this.Then(/^it should call tellTurn\(\) with currentPlayer as a argument$/, function () {
-    game.tellTurn(currentPlayer);
+    currentPlayer = 1; 
+    expect(()=>game.tellTurn(currentPlayer))
   });
 
 
