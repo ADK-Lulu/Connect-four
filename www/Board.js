@@ -57,44 +57,17 @@ class Board {
   winCheck() { }
 
   render() {
-    //Skriva kod för att spara "row"/"column" så
-    //man kan återanvända dem senare för att 
-    //bestämma positioner/bestämma om någon vinner etc.
-    let col0;
-    let col1;
-    let col2;
-    let col3;
-    let col4;
-    let col5;
-    let col6;
+    //Hittar första elementet med klassen board
+    //Gör matrix till en array och letar igenom den, om den hittar något som är 0, 1 eller 2
+    //byter den ut det till gul, röd eller låter det vara vitt. 
+    $('.board').innerHTML = `
+      ${this.matrix.flat().map((x, i) => `
+        <div class="${['', 'red', 'yellow'][x]}">
+          <div></div>
+        </div>
+      `).join('')}
+    `;
 
-    //Tar och loopar igenom matrix, en array av arrayer, som blir spelplanen
-    for (let element of this.matrix) {
-      //Loopar igenom arrayerna var för sig i matrix.
-      for (let $childElement of element) {
-        //Hittar det första elementet med klassen board
-        $childElement = $('.board');
-        let $childElement2 = document.createElement('div');
-        $childElement2.innerHTML = `<div></div>`;
-        $childElement.append($childElement2);
-      }
-    }
-
-    //Kod för att ändra färgen på ett div-element
-    /*if (player === 1) {
-    let $red = $('.red'); 
-      $red.innerHTML (etc.)
-    } else {
-     let $yellow = $('.yellow'); 
-     $yellow.innetHTML (etc.) 
-    } */
-
-    //Om spelare 1 har en bricka på en position
-    //ska det div-element som motsvarar positionen
-    //få css-klassen red. 
-    //Om spelare 2 har en bricka på en position
-    //ska det div-element som motsvarar positionen
-    //få css-klassen yellow.
   }
 
   markWin(combo) { }
