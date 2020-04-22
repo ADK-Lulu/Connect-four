@@ -4,10 +4,11 @@ class Game {
 
     this.addEventListener();
     this.start();
-
+    this.over(1);
   }
 
   start() {
+
     this.board = new Board(this);
   }
 
@@ -32,7 +33,6 @@ class Game {
 
   over(won) {
 
-
     if (won !== "draw" && won !== 1 && won !== 2) {
 
       throw (new Error("won must be 'draw', 1 or 2"));
@@ -44,17 +44,24 @@ class Game {
         : won === 2 ? "Gul vann!"
           : "";
 
-    //TODO få svar om "again" - (den css-klassen finns inte) från Thomas
     let $button = document.createElement('button');
-    $button.className = 'message';
-    $button.innerHTML = '<button class="again">Spela igen</button>';
-    $('body').append($button);
+    $button.className = 'again';
+    $button.innerHTML = '<button>Spela igen</button>';
+    $('.message').append($button);
+
   }
-  /*Metoden ska addera en händelselyssnare/funktion för 
-  click-händelser till elementet med css-klassen message i DOM:en.
-  Händelselyssnaren ska detektera om man har klickat på 
-  knappen med css-klassen again och i så fall anropa metoden start.'*/
-  addEventListener() { }
+
+  addEventListener() {
+
+    $('.message').addEventListener('click', event => {
+
+      if (event.target.closest('again')) {
+        this.start();
+      }
+
+    });
+
+  }
 
 }
 
