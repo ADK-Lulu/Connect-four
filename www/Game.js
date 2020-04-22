@@ -9,7 +9,6 @@ class Game {
 
   start() {
     this.board = new Board(this);
-    this.over(1)
   }
 
 
@@ -51,7 +50,10 @@ class Game {
     $button.innerHTML = '<button class="again">Spela igen</button>';
     $('body').append($button);
   }
-
+  /*Metoden ska addera en händelselyssnare/funktion för 
+  click-händelser till elementet med css-klassen message i DOM:en.
+  Händelselyssnaren ska detektera om man har klickat på 
+  knappen med css-klassen again och i så fall anropa metoden start.'*/
   addEventListener() { }
 
 }
