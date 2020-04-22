@@ -17,14 +17,15 @@ class Game {
     let $message = $('.message');
 
     if (player !== 1 && player !== 2) {
-      throw (new Error('Player must be 1 or 2'));
+      throw (new Error('player must be 1 or 2'));
     }
 
-    $message.innerHTML = player === 1 ? 'Röds tur'
-      : player === 2 ? 'Guls tur'
+    $message.innerHTML = player === 1 ? 'Röds tur...'
+      : player === 2 ? 'Guls tur...'
         : "";
-
   }
+
+
 
   over(won) { }
 
