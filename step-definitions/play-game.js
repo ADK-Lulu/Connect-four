@@ -6,8 +6,6 @@ module.exports = function () {
 
   let game;
   let currentPlayer;
-  
-  
 
   this.Given(/^that a new Game is created$/, function () {
     game = new Game();
@@ -26,7 +24,7 @@ module.exports = function () {
     );
 
   });
-
+  //TODO - denna funkar inte
   this.Then(/^it should render (\d+) divs as children of the board element$/, function (expectedNumberOfDivs) {
     let divsCreated = $$('.board > div').length;
     expect(divsCreated).to.equal(+expectedNumberOfDivs,
@@ -42,32 +40,28 @@ module.exports = function () {
     currentPlayer = integerThree;
   });
 
-
-
   this.When(/^the argument is (\d+.\d+)$/, function (decimal) {
     currentPlayer = decimal;
   });
 
-  let playerOne;
   this.Then(/^the machine will throw "([^"]*)"$/, function (messagetoThrow) {
-    playerOne = new Board()
-    expect(() => playerOne.tellTurn(currentPlayer)).to.equal(messagetoThrow,
+    game = new Game()
+    expect(() => game.tellTurn(currentPlayer)).to.throw(messagetoThrow,
 
       'The expected message is not shown'
     )
   });
 
-
-  this.When(/^player (\d+) has droped a disc$/, function (player) {
-    expect(() => playerOne.tellTurn(player)).to.not.throw(
+  this.When(/^player (\d+) has droped a disc$/, function (playerNumber) {
+    game = new Game();
+    expect(() => game.tellTurn(+playerNumber)).to.not.throw(
 
     );
-
 
   });
 
   this.Then(/^the machine should display "([^"]*)"$/, function (message) {
-    expect(() => $(".message").innerHTML).to.equal(message,
+    expect($('.message').innerHTML).to.equal(message,
       'Wrong info about taking turns'
     )
   });
@@ -88,7 +82,7 @@ module.exports = function () {
     expect(this.matrix.length).to.equal(columns);
 
   });
-  
+
   this.When(/^each element should be set to a array of (\d+) elements$/, function (row) {
     for (let column of this.matrix) {
       for (let rows of column) {
@@ -104,11 +98,11 @@ module.exports = function () {
   });
 
   this.When(/^currentPlayer should be set to the value (\d+)$/, function (player) {
-    expect(()=>(this.currentPlayer).to.equal(player))
+    expect(() => (this.currentPlayer).to.equal(player))
   });
 
   this.When(/^playInProgress should be set to false$/, function () {
-    expect(()=>(game.playInProgress()).to.equal(false))
+    expect(() => (game.playInProgress()).to.equal(false))
   });
 
   this.Then(/^the method should call addEventListener\(\) and render\(\)$/, function () {
@@ -120,5 +114,5 @@ module.exports = function () {
     game.tellTurn(currentPlayer);
   });
 
-  
+
 }
