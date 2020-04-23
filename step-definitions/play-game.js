@@ -3,11 +3,26 @@
 require('./_include-all')();
 
 module.exports = function () {
+  
+  let addEventListenerWasCalled = false;
+  let startWasCalled = false;
+
+  class TestGame extends Game {
+
+    addEventListener() {
+      addEventListenerWasCalled = true;
+
+    }
+    start() {
+      startWasCalled = true;
+
+    }
+  }
 
   let currentPlayer;
   
-  let game = new Game();
-  let board = new Board(game);
+  let game;
+  let board;
 
   this.Given(/^that a new Game is created$/, function () {
     game = new Game();
@@ -79,11 +94,11 @@ module.exports = function () {
     expect(() => (this.game).to.equal(game))
   });
 
-  this.When(/^matrix should be set to an array of (\d+) elements$/, function (rows) {
+  this.Then(/^matrix should be set to an array of (\d+) elements$/, function (rows) {
     expect(board.matrix.length).to.equal(+rows);
   });
   
-  this.When(/^each element should be set to a array of (\d+) elements$/, function (column) {
+  this.Then(/^each element should be set to a array of (\d+) elements$/, function (column) {
     for (let column of board.matrix) {
       column = board.matrix[0].length
       expect(column).to.equal(column);
@@ -91,7 +106,7 @@ module.exports = function () {
      
   });
 
-  this.When(/^each element should have the value of (\d+)$/, function (element) {
+  this.Then(/^each element should have the value of (\d+)$/, function (element) {
     for (let rows of board.matrix) {
       for (let column of board.matrix) {
         expect(+element).to.equal(0);
@@ -99,21 +114,30 @@ module.exports = function () {
     };
   });
 
-  this.When(/^currentPlayer should be set to the value (\d+)$/, function (player) {
+  this.Then(/^currentPlayer should be set to the value (\d+)$/, function (player) {
     expect(() => (this.currentPlayer).to.equal(player))
   });
 
-  this.When(/^playInProgress should be set to false$/, function () {
+  this.Then(/^playInProgress should be set to false$/, function () {
     expect(() => (game.playInProgress()).to.equal(false))
   });
 
-  this.Then(/^the method should call addEventListener\(\) and render\(\)$/, function () {
-    expect(() => game.addEventListener(), board.render())
-    
+  //TO CHECK- följde thomas exempel men den funkar inte ändå. 
+  this.Then(/^the method should call addEventListener\(\)$/, function () {
+    expect(addEventListenerWasCalled,
+      'the method was not called'
+    ).to.be.true
+  });
+//TO CHECK- följde thomas exempel men den funkar inte ändå. 
+  this.Then(/^the method should call the method render\(\)$/, function () {
+    expect(startWasCalled,
+      'the method was not called'
+    ).to.be.true
   });
 
+  //TODO-vet inte om den här är rätt
   this.Then(/^it should call tellTurn\(\) with currentPlayer as a argument$/, function () {
-    currentPlayer = 1; 
+    
     expect(()=>game.tellTurn(currentPlayer))
   });
 
