@@ -51,3 +51,30 @@ Feature: Play Connect 4
     And the method should call addEventListener() 
     And the method should call the method render()
     And it should call tellTurn() with currentPlayer as a argument
+    
+
+  #Game-over(won)
+  Scenario Outline: Error message when won has wrong argument
+    Given that the argument won is not <value>
+    Then the error 'won must be "draw", 1 or 2' will be thrown
+
+    Examples:
+      | value |
+      | draw  |
+      | 1     |
+      | 2     |
+
+  Scenario Outline: Correct message shown
+    Given that the argument won is <value>
+    Then the message <message> is shown
+
+    Examples:
+      | value | message             |
+      | draw  | "Det blev oavgjort" |
+      | 1     | "Röd vann!"         |
+      | 2     | "Gul vann!"         |
+  Scenario: Play again button
+    Given that the game is over
+    And that there is a button in the .message element with the class .again
+    When I press the button
+    Then the game should restart
