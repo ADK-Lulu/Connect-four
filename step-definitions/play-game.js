@@ -20,15 +20,9 @@ module.exports = function () {
   }
 
   let currentPlayer;
-<<<<<<< HEAD
-
-  let game = new Game();
-  let board = new Board(game);
-=======
 
   let game;
   let board;
->>>>>>> 1311429f1f3ea1c261cb58551efaa4268453e8e9
 
   this.Given(/^that a new Game is created$/, function () {
     game = new Game();
@@ -77,10 +71,7 @@ module.exports = function () {
 
   this.When(/^player (\d+) has droped a disc$/, function (playerNumber) {
     game = new Game();
-    expect(() => game.tellTurn(+playerNumber)).to.not.throw(
-
-    );
-
+    expect(() => game.tellTurn(+playerNumber)).to.not.throw();
   });
 
   this.Then(/^the machine should display "([^"]*)"$/, function (message) {
@@ -103,13 +94,8 @@ module.exports = function () {
   this.Then(/^matrix should be set to an array of (\d+) elements$/, function (rows) {
     expect(board.matrix.length).to.equal(+rows);
   });
-<<<<<<< HEAD
 
   this.When(/^each element should be set to a array of (\d+) elements$/, function (column) {
-=======
-
-  this.Then(/^each element should be set to a array of (\d+) elements$/, function (column) {
->>>>>>> 1311429f1f3ea1c261cb58551efaa4268453e8e9
     for (let column of board.matrix) {
       column = board.matrix[0].length
       expect(column).to.equal(column);
@@ -144,28 +130,39 @@ module.exports = function () {
     expect(() => game.tellTurn(currentPlayer))
   });
 
-  this.Given(/^that the argument won is not draw$/, function () {
-    expect(() => game.over(won)).to.not.equal("draw");
+  this.Given(/^that the argument won has the value true$/, function () {
+    won = true;
   });
 
-  this.Given(/^that the argument won is not (\d+)$/, function (player) {
-    expect(() => game.over(won)).to.not.equal(player);
+  this.Given(/^that the argument won has the value "([^"]*)"$/, function (elephant) {
+    won = elephant;
+  });
+
+  this.Given(/^that the argument won has the value (\d+.\d+)$/, function (decimal) {
+    won = decimal;
+  });
+
+  this.Given(/^that the argument won has the value ''$/, function () {
+    won = '';
+  });
+
+  this.Given(/^that the argument won has the value (\d+)$/, function (numberThree) {
+    won = numberThree;
   });
 
   //Måste fixa i scenario till scenario outline? 
-  this.Then(/^the error 'won must be "([^"]*)", (\d+) or (\d+)' will be thrown$/, function (draw, player1, player2) {
-    expect(draw).to.equal("draw");
-    expect(player1).to.equal(1);
-    expect(player2).to.equal(2);
-
+  this.Then(/^the error "([^"]*)" will be thrown$/, function (errorMessage) {
+    expect(() => game.over(won)).to.throw(errorMessage);
   });
 
   this.Given(/^that the argument won is draw$/, function () {
-    expect(game.over(won)).to.equal("draw");
+    won = "draw";
+    expect(() => game.over(won)).to.equal("draw");
 
   });
 
   this.Given(/^that the argument won is (\d+)$/, function (player) {
+    won = player;
     expect(game.over(won)).to.equal(player);
   });
 

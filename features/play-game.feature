@@ -39,7 +39,7 @@ Feature: Play Connect 4
       | 1            | "Röds tur..." |
       | 2            | "Guls tur..." |
 
- #scenario för constuctor(game)
+  #scenario för constuctor(game)
   Scenario: The correct properties should be set when a new game i created
     Given that game is an instance of class Game
     When game is set to the value of constructor-game
@@ -48,21 +48,22 @@ Feature: Play Connect 4
     And each element should have the value of 0
     And currentPlayer should be set to the value 1
     And playInProgress should be set to false
-    And the method should call addEventListener() 
-    And the method should call the method render()
+    #And the method should call addEventListener()
+    #And the method should call the method render()
     And it should call tellTurn() with currentPlayer as a argument
-    
+
 
   #Game-over(won)
   Scenario Outline: Error message when won has wrong argument
-    Given that the argument won is not <value>
-    Then the error 'won must be "draw", 1 or 2' will be thrown
-
+    Given that the argument won has the value <value>
+    Then the error <error message> will be thrown
     Examples:
-      | value |
-      | draw  |
-      | 1     |
-      | 2     |
+      | value      | error message                |
+      | "elephant" | "won must be 'draw', 1 or 2" |
+      | 3          | "won must be 'draw', 1 or 2" |
+      | 1.5        | "won must be 'draw', 1 or 2" |
+      | true       | "won must be 'draw', 1 or 2" |
+      | ''         | "won must be 'draw', 1 or 2" |
 
   Scenario Outline: Correct message shown
     Given that the argument won is <value>

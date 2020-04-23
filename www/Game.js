@@ -4,7 +4,7 @@ class Game {
 
     this.addEventListener();
     this.start();
-    this.over(1);
+
   }
 
   start() {
