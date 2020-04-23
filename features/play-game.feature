@@ -39,8 +39,14 @@ Feature: Play Connect 4
       | 1            | "Röds tur..." |
       | 2            | "Guls tur..." |
 
-  #scenario för constuctor(game)
-  Scenario: The correct properties should be set when a new game i created
+  #scenario för Game-constructor
+  Scenario: The constructor in the Game class should call the correct methods when a new game is started
+    When a new game is started
+    Then the constructor should call the method addEventListener
+    And the constructor should call the method start
+
+  #scenario för Board-constructor
+  Scenario: The constructor should set the correct properties when a new game is created
     Given that game is an instance of class Game
     When game is set to the value of constructor-game
     Then matrix should be set to an array of 6 elements
@@ -48,9 +54,12 @@ Feature: Play Connect 4
     And each element should have the value of 0
     And currentPlayer should be set to the value 1
     And playInProgress should be set to false
-    #And the method should call addEventListener()
-    #And the method should call the method render()
-    And it should call tellTurn() with currentPlayer as a argument
+
+  Scenario: The constructor should call the correct methods when a new game is created
+    When a new game is started
+    Then the constructor should call addEventListener
+    And the constructor should call the method render
+    And it should call tellTurn with currentPlayer as a argument
 
 
   #Game-over(won)
@@ -65,17 +74,19 @@ Feature: Play Connect 4
       | true       | "won must be 'draw', 1 or 2" |
       | ''         | "won must be 'draw', 1 or 2" |
 
-  Scenario Outline: Correct message shown
-    Given that the argument won is <value>
-    Then the message <message> is shown
+  Scenario: Correct message shown, draw
+    Given that the argument won is draw
+    Then the message "Det blev oavgjort!" is shown
 
-    Examples:
-      | value | message             |
-      | draw  | "Det blev oavgjort" |
-      | 1     | "Röd vann!"         |
-      | 2     | "Gul vann!"         |
+  Scenario: Correct message shown, red won
+    Given that the argument won is 1 for red
+    Then the message "Röd vann!" shows that red won
+
+  Scenario: Correct message shown, yellow won
+    Given that the argument won is 2 for yellow
+    Then the message "Gul vann!" shows that yellow won
+
   Scenario: Play again button
     Given that the game is over
     And that there is a button in the .message element with the class .again
-    When I press the button
-    Then the game should restart
+    Then I should be able to restart the game
