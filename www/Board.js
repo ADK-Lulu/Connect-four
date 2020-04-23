@@ -22,13 +22,13 @@ class Board {
 
   }
   async makeMove(column) {
-    /*if (!Number.isInteger(column) || column > 0 || column < 6) {
+    if (!Number.isInteger(column) || column > 0 || column < 6) {
       throw (new Error('column must be an integer between 0 and 6'))
     }
     else if (this.playInProgress === true) {
       return null;
     }
-    else if (column is full) {
+    else if (meh /*column is full*/) {
       //loopa igenom olika lösningar? 
       //Skriv kod här för att kolla om column är full
       return false;
@@ -52,7 +52,7 @@ class Board {
     }
     this.game.tellTurn(currentPlayer);
     this.playInProgress = false;
-    return true;*/
+    return true;
 
   }
 
