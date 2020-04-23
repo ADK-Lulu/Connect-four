@@ -39,7 +39,7 @@ Feature: Play Connect 4
       | 1            | "Röds tur..." |
       | 2            | "Guls tur..." |
 
- #scenario för constuctor(game)
+  #scenario för constuctor(game)
   Scenario: A new game is started
     Given that game is an instance of class Game
     When game is set to the value of constructor-game
@@ -50,3 +50,29 @@ Feature: Play Connect 4
     And playInProgress should be set to false
     Then the method should call addEventListener() and render()
     And it should call tellTurn() with currentPlayer as a argument
+
+  #Game-over(won)
+  Scenario Outline: Error message when won has wrong argument
+    Given that the argument won is not <value>
+    Then the error 'won must be "draw", 1 or 2' will be thrown
+
+    Examples:
+      | value |
+      | draw  |
+      | 1     |
+      | 2     |
+
+  Scenario Outline: Correct message shown
+    Given that the argument won is <value>
+    Then the message <message> is shown
+
+    Examples:
+      | value | message             |
+      | draw  | "Det blev oavgjort" |
+      | 1     | "Röd vann!"         |
+      | 2     | "Gul vann!"         |
+  Scenario: Play again button
+    Given that the game is over
+    And that there is a button in the .message element with the class .again
+    When I press the button
+    Then the game should restart
