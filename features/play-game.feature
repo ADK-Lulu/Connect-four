@@ -65,17 +65,19 @@ Feature: Play Connect 4
       | true       | "won must be 'draw', 1 or 2" |
       | ''         | "won must be 'draw', 1 or 2" |
 
-  Scenario Outline: Correct message shown
-    Given that the argument won is <value>
-    Then the message <message> is shown
+  Scenario: Correct message shown, draw
+    Given that the argument won is draw
+    Then the message "Det blev oavgjort!" is shown
 
-    Examples:
-      | value | message             |
-      | draw  | "Det blev oavgjort" |
-      | 1     | "Röd vann!"         |
-      | 2     | "Gul vann!"         |
+  Scenario: Correct message shown, red won
+    Given that the argument won is 1 for red
+    Then the message "Röd vann!" shows that red won
+
+  Scenario: Correct message shown, yellow won
+    Given that the argument won is 2 for yellow
+    Then the message "Gul vann!" shows that yellow won
+
   Scenario: Play again button
     Given that the game is over
     And that there is a button in the .message element with the class .again
-    When I press the button
-    Then the game should restart
+    Then I should be able to restart the game
