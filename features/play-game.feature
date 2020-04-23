@@ -39,8 +39,14 @@ Feature: Play Connect 4
       | 1            | "Röds tur..." |
       | 2            | "Guls tur..." |
 
-  #scenario för constuctor(game)
-  Scenario: The correct properties should be set when a new game i created
+  #scenario för Game-constructor
+  Scenario: The constructor in the Game class should call the correct methods when a new game is started
+    When a new game is started
+    Then the constructor should call the method addEventListener
+    And the constructor should call the method start
+
+  #scenario för Board-constructor
+  Scenario: The constructor should set the correct properties when a new game is created
     Given that game is an instance of class Game
     When game is set to the value of constructor-game
     Then matrix should be set to an array of 6 elements
@@ -48,9 +54,12 @@ Feature: Play Connect 4
     And each element should have the value of 0
     And currentPlayer should be set to the value 1
     And playInProgress should be set to false
-    #And the method should call addEventListener()
-    #And the method should call the method render()
-    And it should call tellTurn() with currentPlayer as a argument
+
+  Scenario: The constructor should call the correct methods when a new game is created
+    When a new game is started
+    Then the constructor should call addEventListener
+    And the constructor should call the method render
+    And it should call tellTurn with currentPlayer as a argument
 
 
   #Game-over(won)
