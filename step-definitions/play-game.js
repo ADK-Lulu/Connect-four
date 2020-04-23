@@ -5,7 +5,8 @@ require('./_include-all')();
 module.exports = function () {
 
   let addEventListenerWasCalled = false;
-  let startWasCalled = false;
+  let renderWasCalled = false;
+
 
   class TestGame extends Game {
 
@@ -13,12 +14,15 @@ module.exports = function () {
       addEventListenerWasCalled = true;
 
     }
-    start() {
-      startWasCalled = true;
+    render() {
+      renderWasCalled = true;
 
     }
+
+
   }
 
+  let testGame;
   let currentPlayer;
 
   let game;
@@ -92,10 +96,15 @@ module.exports = function () {
   });
 
   this.Then(/^matrix should be set to an array of (\d+) elements$/, function (rows) {
+    game = new Game();
+    board = new Board(game);
+
     expect(board.matrix.length).to.equal(+rows);
   });
+  this.Then(/^each element should be set to a array of (\d+) elements$/, function (column) {
+    game = new Game();
+    board = new Board(game);
 
-  this.When(/^each element should be set to a array of (\d+) elements$/, function (column) {
     for (let column of board.matrix) {
       column = board.matrix[0].length
       expect(column).to.equal(column);
@@ -104,11 +113,14 @@ module.exports = function () {
   });
 
   this.Then(/^each element should have the value of (\d+)$/, function (element) {
+    game = new Game();
+    board = new Board(game);
+
     for (let rows of board.matrix) {
       for (let column of board.matrix) {
         expect(+element).to.equal(0);
       }
-    };
+    }
   });
 
   this.Then(/^currentPlayer should be set to the value (\d+)$/, function (player) {
@@ -119,15 +131,28 @@ module.exports = function () {
     expect(() => (game.playInProgress()).to.equal(false))
   });
 
-  this.Then(/^the method should call addEventListener\(\) and render\(\)$/, function () {
-    expect(() => game.addEventListener(), board.render())
+  this.Then(/^the method should call addEventListener\(\)$/, function () {
+    testGame = new TestGame();
+    expect(addEventListenerWasCalled,
+      'the method was not called'
+    ).to.be.true;
+  });
+
+  //vet inte varför denna inte fungerar. 
+  this.Then(/^the method should call the method render\(\)$/, function () {
+    testGame = new TestGame();
+    expect(renderWasCalled,
+      'the method was not called'
+    ).to.be.true;
 
   });
 
-  //TODO-vet inte om den här är rätt
+  //TODO-denna är inte rätt.
   this.Then(/^it should call tellTurn\(\) with currentPlayer as a argument$/, function () {
-    currentPlayer = 1;
-    expect(() => game.tellTurn(currentPlayer))
+
+    expect(game.tellTurn()).to.have.argument(this.currentPlayer,
+      'The wrong argument is used'
+    )
   });
 
   this.Given(/^that the argument won has the value true$/, function () {
