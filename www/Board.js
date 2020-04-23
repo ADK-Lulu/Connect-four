@@ -16,8 +16,10 @@ class Board {
     let currentPlayer = 1;
     let playInProgress = false;
     this.addEventListener();
+    this.removeEventListener();
     this.render();
     game.tellTurn(currentPlayer);
+
   }
   async makeMove(column) {
     /*if (!Number.isInteger(column) || column > 0 || column < 6) {
@@ -72,9 +74,27 @@ class Board {
 
   markWin(combo) { }
 
-  addEventListener() { }
+  /*lyssnar efter click-händelser till elementet med css-klassen board i DOM:en.
+Listar ut index för columner och skickar till makeMove. 
+*/
+  addEventListener() {
 
-  removeEventListener() { }
+    this.listener = event => {
+      let $clicked = event.target.closest('.board>div');
+      if (!$clicked) { return }
+      let $allClicked = [...$$('.board>div')];
+      let index = $allClicked.indexOf($clicked);
+      let column = index % 7;
+      this.makeMove(column);
+      console.log(column)
+    }
+    $('.board').addEventListener('click', this.listener);
+  }
+  /*Metoden ska ta bort händelselyssnaren lagrad i egenskapen listener 
+  från elementet med css-klassen board i DOM:en.*/
+  removeEventListener() {
+    $('.board').removeEventListener('click', this.listener);
+  }
 
 }
 
