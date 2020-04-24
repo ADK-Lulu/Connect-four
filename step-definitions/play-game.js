@@ -4,38 +4,7 @@ require('./_include-all')();
 
 module.exports = function () {
 
-  let addEventListenerWasCalled = false;
-  let renderWasCalled = false;
-
-
-  class TestGame extends Game {
-
-    addEventListener() {
-      addEventListenerWasCalled = true;
-
-    }
-
-    start() {
-      startWasCalled = true;
-    }
-  }
-
-  addEventListenerBoardWasCalled = false;
-  renderWasCalled = false;
-
-  class TestBoard extends Board {
-
-    addEventListener() {
-      addEventListenerBoardWasCalled = true;
-    }
-    render() {
-      renderWasCalled = true;
-    }
-  }
-
-  let testBoard;
-  let testGame;
-
+  
   let currentPlayer;
   let playInProgress;
   let game;
@@ -96,97 +65,7 @@ module.exports = function () {
       'Wrong info about taking turns'
     )
   });
-  //Här börjar step-difinitions för Game-constructor
-
-  this.When(/^a new game is started$/, function () {
-    testGame = new TestGame();
-  });
-  this.Then(/^the constructor should call the method addEventListener$/, function () {
-    expect(addEventListenerWasCalled, 'The method was not called'
-    ).to.be.true;
-  });
-
-  this.Then(/^the constructor should call the method start$/, function () {
-    expect(startWasCalled, 'The method was not called'
-    ).to.be.true;
-  });
-
-  //Board-constructor
-
-  this.Given(/^that game is an instance of class Game$/, function () {
-    game = new Game();
-    expect(game).to.be.an.instanceof(Game,
-      'game must be an instance of Game')
-  });
-
-  this.When(/^game is set to the value of constructor-game$/, function () {
-    expect(() => (this.game).to.equal(game))
-  });
-
-  this.Then(/^matrix should be set to an array of (\d+) elements$/, function (rows) {
-    game = new Game();
-    board = new Board(game);
-
-    expect(board.matrix.length).to.equal(+rows);
-
-  });
-
-  this.Then(/^each element should be set to a array of (\d+) elements$/, function (columns) {
-    game = new Game();
-    board = new Board(game);
-
-    for (let column of board.matrix) {
-      column = board.matrix[0].length
-      expect(column).to.equal(+columns);
-
-    }
-  });
-  //DENNA ÄR INTE KLAR...har inte lyckats få den att ta tag i elementen. 
-  this.Then(/^each element should have the value of (\d+)$/, function (element) {
-    game = new Game();
-    board = new Board(game);
-    
-    expect(board.matrix).to.equal(+element);
-  });
-  //denna är inte heller klar.....
-  this.Then(/^currentPlayer should be set to the value (\d+)$/, function (player) {
-    
-    expect(() => (game.currentPlayer).to.equal(+player))
-    
-  });
-
-  this.Then(/^playInProgress should be set to false$/, function () {
-    game = new Game();
-    board = new Board(game);
-    expect(() => (game.playInProgress).to.equal(false))
-  });
-
-  this.When(/^a new game is started\(\)$/, function () {
-    testBoard = new TestBoard(game);
-  });
-
-  this.Then(/^the constructor should call addEventListener\(\)$/, function () {
-    testBoard = new TestBoard(game);
-    expect(addEventListenerBoardWasCalled,
-      'the method was not called'
-    ).to.be.true;
-  });
-
-
-  this.Then(/^the constructor should call the method render\(\)$/, function () {
-    testBoard = new TestBoard(game);
-    expect(renderWasCalled,
-      'the method was not called'
-    ).to.be.true;
-
-  });
-  //TODO-denna är inte rätt.
-  this.Then(/^it should call tellTurn\(\) with currentPlayer as a argument$/, function () {
-
-    expect(game.tellTurn()).to.have.argument(this.currentPlayer,
-      'The wrong argument is used'
-    )
-  });
+ 
 
   this.Given(/^that the argument won has the value true$/, function () {
     won = true;
