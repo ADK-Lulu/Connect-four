@@ -22,18 +22,17 @@ class Board {
   }
 
   async makeMove(column) {
-
+    //kolla så att column är en integer mellan 0-6 annars kasta ett fel
     if (!Number.isInteger(column) || column < 0 || column > 6) {
 
       throw (new Error('column must be an integer between 0 and 6'))
     }
-    else if (this.playInProgress === true) {
+    //om playInprogress är true ska null returneras
+    if (this.playInProgress === true) {
       return null;
     }
-
     //plattar ut matrixen för att sedan i switchen kolla om det finns någon 0, dvs en vit/tom plats, i aktuell column,
     //om det inte finns så returneras false
-
     let flatMatrix = this.matrix.flat();
 
     switch (column) {
@@ -53,19 +52,39 @@ class Board {
       case 6: if (flatMatrix.filter((item, index) => index % 7 === 6).indexOf(0) === -1) { return false };
         break;
     }
-
+    //Sätta egenskapen playInProgress till true.
     this.playInProgress = true;
-    //Sätt brickan högst upp
-    //this.render();
-    //ta bort brickan om den kan falla längre ner 
-    //Anropa sleep 
-    //om det går, börja om igen från anropa render 
-    //anropa this.winCheck, om den anropar något true; 
-    // this.removeEventListener();
+    
+    //Sätta ut brickan tillfälligt högst upp i kolumnen.Loopar igenom matrix och om row=0 sätts det till värdet av currentPlayer.
+    //Ta bort brickan om den kan falla längre ner.
+    for (let row = 0; row < this.matrix.length; row++) {
+      if (this.matrix[row][column] === 0) {
+        this.matrix[row][column] = this.currentPlayer;
+        
+        //Anropa metoden render
+        this.render();
+        
+        //Anropa den asynkrona hjälpmetoden sleep för att pausa i 50 ms.
+        await sleep(50);
+        
+        //Om det går: flytta brickan ett steg ner i kolumnen och upprepa från steg 3.
+        if (row + 1 < 6) {
+          if (this.matrix[row + 1][column] !== 0) {
+            break;
+          }
+          else if (this.matrix[row][column] = 0) {
+            this.playInProgress = false
+          }
+        }
+      }
+    }
+    //Anropa metoden winCheck och om den returnerar något som är truthy:
+    //a) Anropa metoden removeEventListener
+    //this.winCheck();
+    //this.removeEventListener();
     //om winCheck returnerar något med combo ska metoden this.markWin(combo) anropas 
     //game.over(winner)
     //returnera true
-
     //Byt spelare
     this.currentPlayer === 1 ? this.currentPlayer = 2
       : this.currentPlayer = 1;
@@ -73,11 +92,26 @@ class Board {
     this.game.tellTurn(this.currentPlayer);
     this.playInProgress = false;
     return true;
+  
 
-  }
+  
+}
+  
 
-  winCheck() { }
 
+//Ska titta på hela brädet och kontrollera om någon har vunnit eller om det har blivit oavgjort.
+//Om någon har vunnit ska metoden returnera ett objekt.Objektet ska ha egenskaperna winner satt till vinnaren(1 eller 2),
+//samt combo - en array av 4 arrayer, där varje inre array är en position på brädet[radnummer, kolumnnummer].
+//Om det har blivit oavgjort ska metoden returnera ett objekt med egenskapen winner satt till strängen “draw”.
+//Om ingen har vunnit och det inte har blivit oavgjort ska metoden returnera värdet false.
+
+ /* winCheck() {
+    let combos = [];
+    for (let row = 0; row < 6; row++) {
+      let slot = this.matrix[row][column]
+    
+    }*/
+    
   render() {
     //Hittar första elementet med klassen board
     //Gör matrix till en array och letar igenom den, om den hittar något som är 0, 1 eller 2
