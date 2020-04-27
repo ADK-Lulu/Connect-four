@@ -4,6 +4,28 @@ require('./_include-all')();
 
 module.exports = function () {
 
+  let addEventListenerWasCalled = false;
+  let startWasCalled = false;
+  let overWasCalled = false;
+  let game = new Game();
+
+
+  class TestGame extends Game {
+
+
+    addEventListener() {
+      addEventListenerWasCalled = true;
+
+    }
+
+    start() {
+      startWasCalled = true;
+    }
+    over() {
+      overWasCalled = true;
+    }
+  }
+
   this.Given(/^that the argument won has the value true$/, function () {
     won = true;
   });
@@ -57,27 +79,6 @@ module.exports = function () {
     expect($('.message').innerHTML).to.equal(winYellow);
   });
 
-  let addEventListenerWasCalled = false;
-  let startWasCalled = false;
-  let overWasCalled = false;
-
-
-  class TestGame extends Game {
-
-
-    addEventListener() {
-      addEventListenerWasCalled = true;
-
-    }
-
-    start() {
-      startWasCalled = true;
-    }
-    over() {
-      overWasCalled = true;
-    }
-  }
-
   this.Given(/^that the game is over$/, function () {
     if (won === "draw" || won === 1 || won === 2) {
       expect(overWasCalled, 'The method was not called correctly').to.be.true;
@@ -90,8 +91,10 @@ module.exports = function () {
   });
 
   this.Then(/^I should be able to restart the game$/, function () {
-    expect(addEventListenerWasCalled, 'The method was not called correctly').to.be.true;
-    expect(startWasCalled, 'The method was not called correctly').to.be.true;
+    if (won === "draw" || won === 1 || won === 2) {
+      expect(addEventListenerWasCalled, 'The method was not called correctly').to.be.true;
+      expect(startWasCalled, 'The method was not called correctly').to.be.true;
+    }
   });
 
 }
