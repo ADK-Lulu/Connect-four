@@ -169,5 +169,9 @@ module.exports = function () {
 
   });
 
+  this.When(/^the matrix is rendered it should have empty div elements inside of a div$/, function () {
+    let divInside = $('.board > div>div').innerHTML === "";
+    expect(divInside, 'There are not any empty divs inside the matrix').to.be.true;
+  });
 
 }

@@ -43,3 +43,6 @@ Feature: Play Connect 4
       | 1      | 0   | 0   | "red"    |
       | 2      | 0   | 1   | "yellow" |
 
+  Scenario: Render should make 42 empty div elements inside of every element
+    When the matrix is rendered it should have empty div elements inside of a div
+
