@@ -16,8 +16,11 @@ module.exports = function () {
     }
 
     start() {
+
       startWasCalled = true;
     }
+
+
   }
 
   addEventListenerBoardWasCalled = false;
@@ -65,65 +68,65 @@ module.exports = function () {
     expect(game).to.be.an.instanceof(Game,
       'game must be an instance of Game')
   });
-  //den här behöver nog själva beskrivningen ändras lite
-  //game should be set to the value of new Game kanske eller nått
-  this.When(/^game is set to the value of constructor-game$/, function () {
-    expect(function () {
-
-    })
+  //MARIT justerat
+  this.Then(/^game is set to the value of the parameter passed to the constructor in Board$/, function () {
+    game = new Game();
+    expect(game).to.have.property('board');
   });
-  //den här är inte heller korrekt
-  //kanske man behöver lägga in själva arrayen här? och loopa den eller nått
-  // expect({ a: { b: ['x', 'y'] } }).to.have.nested.property('a.b[1]');
-  this.Then(/^matrix should be set to an array of (\d+) elements$/, function (rows) {
+
+  //Marit justerat
+  this.Then(/^matrix should be set to an array of (\d+) elements$/, function (arrElements) {
     game = new Game();
     board = new Board(game);
 
-    expect(board.matrix.length).to.equal(+rows);
+    expect(board.matrix).to.have.lengthOf(+arrElements);
 
   });
-  //den här är inte heller korrekt, den förutsätter att den förra är rätt
+  //Marit justerat
   this.Then(/^each element should be set to a array of (\d+) elements$/, function (columns) {
     game = new Game();
     board = new Board(game);
 
-    for (let column of board.matrix) {
-      column = board.matrix[0].length
-      expect(column).to.equal(+columns);
+    for (let i = 0; i < board.matrix.length; i++) {
+      for (let j = 0; j < board.matrix[i].length; j++) {
 
+        expect(board.matrix[i], 'Wrong amount of elements in the nested array').to.have.lengthOf(+columns);
+
+      }
     }
-  });
-  //DENNA ÄR INTE KLAR...har inte lyckats få den att ta tag i elementen. 
-  this.Then(/^each element should have the value of (\d+)$/, function (element) {
-    // game = new Game();
-    //board = new Board(game);
 
-    //expect(board.matrix).to.equal(+element);
   });
-  //denna är inte heller klar.....den ska kolla så att currentPlayer byts till 1. 
-  this.Then(/^currentPlayer should be set to the value (\d+)$/, function (player) {
+  //Marit justerat
+  this.Then(/^each element should have the value of (\d+)$/, function (element) {
     game = new Game();
     board = new Board(game);
 
-    expect(() => (board.currentPlayer).to.equal(1,
-      'currentPlayer should be set to 1'))
-
+    expect(board.matrix.flat()).to.have.members([+element]);
   });
-  //denna är inte heller klar.....
+
+  //Marit justerat 
+  this.Then(/^currentPlayer should be set to the value (\d+)$/, function (playerOne) {
+    game = new Game();
+    board = new Board(game);
+
+    expect(board.currentPlayer).to.equal(+playerOne,
+      'currentPlayer should be set to 1')
+  });
+  //MARIT justerat
   this.Then(/^playInProgress should be set to false$/, function () {
     game = new Game();
     board = new Board(game);
 
-    expect(() => (board.playInProgress).to.equal(false,
-      'playInProgress is not set to false'))
+    expect(board.playInProgress, 'playInProgress is not set to false').to.be.false;
 
   });
 
-  //här är ett nytt scenario
+  //Scenario: The constructor should call the correct methods when a new game is created
   //denna är OK
   this.When(/^a new game is started\(\)$/, function () {
     testBoard = new TestBoard(game);
   });
+
   //Denna är OK av Thomas
   this.Then(/^the constructor should call addEventListener$/, function () {
     testBoard = new TestBoard(game);
@@ -140,15 +143,14 @@ module.exports = function () {
     ).to.be.true;
 
   });
-  //denna är inte rätt heller.....
-  this.Then(/^it should call tellTurn with currentPlayer as a argument$/, function () {
-
-    // expect(game.tellTurn()).to.have.argument(this.currentPlayer,
+  //TODO funkar inte, kommenterat bort för att kunna fortsätta
+  this.Then(/^it should call tellTurn with currentPlayer as an argument$/, function () {
+    // expect(testGame.tellTurn(currentPlayer)).to.have.argument(currentPlayer,
     //   'The wrong argument is used'
     // )
   });
 
-  //Dessa tre step nedan kollar ifall domen ändrar färg beroende på vilken currentplayer det är
+  //Scenario: Render shall change color on the div-elements in DOM depending on which player is the current one
   this.When(/^(\d+) is the value of the currentPlayer$/, function (value) {
     currentPlayer = value;
   });
@@ -169,5 +171,9 @@ module.exports = function () {
 
   });
 
+  this.When(/^the matrix is rendered it should have empty div elements inside of a div$/, function () {
+    let divInside = $('.board > div>div').innerHTML === "";
+    expect(divInside, 'There are not any empty divs inside the matrix').to.be.true;
+  });
 
 }
