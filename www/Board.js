@@ -107,7 +107,7 @@ class Board {
 
   winCheck() {
     let winnerObject = {};
-    let combo = [[], [], [], []];
+    let combo = [];
 
     
     let winOffset = [
@@ -123,27 +123,39 @@ class Board {
         for (let w of winOffset) {
           let slots = w.map(([r, c]) => this.matrix[row + r] && this.matrix[row + r][col + c]).join('');
          
+          let countMoves = 0;
+          let gameSlots = this.matrix.flat();
+          for (let slot of gameSlots) {
+            if (slot !== 0) {
+              countMoves++
+            }
+          }    
+          
           if (slots === '1111' || slots === '2222') {
+            for (let win of w) {
+              combo.push([row + win[0], col + win[1]]);     //jag har fått hjälp med denna 
+            }
+          
             return winnerObject = {
               winner: +slots[0],
               combo: combo
             }
           }
-        }
-      }
+           else if (countMoves === 42) {
+            return winnerObject = {
+              winner: 'draw'
+            }
+          }
+        }        
+      } 
     }
-  } 
-        
-      
-    
-  
-      
+      return false;
+  }
 
-    
       render() {
         //Hittar första elementet med klassen board
         //Gör matrix till en array och letar igenom den, om den hittar något som är 0, 1 eller 2
-        //byter den ut det till gul, röd eller låter det vara vitt. 
+        //byter den ut det till klassen red, yellow eller låter det vara vitt. 
         $('.board').innerHTML = `
       ${this.matrix.flat().map((x, i) => `
         <div class="${['', 'red', 'yellow'][x]}">
@@ -154,11 +166,16 @@ class Board {
 
       }
   
-  
+  //Metoden ska ta emot inargumentet combo - en array skapad enligt specifikationerna som finns angivna för metoden winCheck.
+//Metoden ska hitta de fyra div - element som motsvarar positionerna angivna i combo och lägga till css - klassen win till vart och ett av dessa div - element.
+//Metoden ska använda hjälpmetoden $ för att ta tag i rätt element i DOM: en.
 
-      markWin(combo) { }
 
-  
+  markWin(combo) {
+
+    
+
+  }
   
   
       //lyssnar efter click-händelser till elementet med css-klassen board i DOM:en.
