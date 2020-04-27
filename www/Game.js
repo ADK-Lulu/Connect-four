@@ -25,12 +25,6 @@ class Game {
         : "";
   }
 
-
-  /*
-  Dessutom ska en knapp (button-element) läggas till i DOM-elementet 
-  med css-klassen message. Knappen ska ha css-klassen again och texten 
-  “Spela igen”.*/
-
   over(won) {
 
     if (won !== "draw" && won !== 1 && won !== 2) {
