@@ -9,7 +9,7 @@ Feature: Play Connect 4
   Background:
     Given that a new Game is created
     And a new Board is created
- 
+
   #scenario för Game-constructor
   Scenario: The constructor in the Game class should call the correct methods when a new game is started
     When a new game is started
@@ -31,3 +31,15 @@ Feature: Play Connect 4
     Then the constructor should call addEventListener
     And the constructor should call the method render
     And it should call tellTurn with currentPlayer as a argument
+
+  #Scenario för render() i Board
+  Scenario Outline: Render shall change color on the div-elements in DOM depending on which player is the current one
+    When <number> is the value of the currentPlayer
+    And the currentPlayer has made a move and placed a disc on index <row> and <col>
+    Then <color> will be the chosen color on the div by help from the css-class board
+
+    Examples:
+      | number | row | col | color    |
+      | 1      | 0   | 0   | "red"    |
+      | 2      | 0   | 1   | "yellow" |
+
