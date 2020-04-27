@@ -26,6 +26,11 @@ module.exports = function () {
     }
   }
 
+  let currentPlayer;
+  let objectToReturnFromWinCheck = {};
+
+  let board;
+
   this.Given(/^that the argument won has the value true$/, function () {
     won = true;
   });
@@ -96,5 +101,33 @@ module.exports = function () {
       expect(startWasCalled, 'The method was not called correctly').to.be.true;
     }
   });
+
+
+  //Start of test av Board winCheck()
+  this.Given(/^that a player has won$/, function () {
+    game = new Game()
+    board = new Board(game)
+
+
+  });
+
+  this.Then(/^the method shall return un object with player (\d+) on the property winner$$/, function (player) {
+    //adding playerNr to my:
+    objectToReturnFromWinCheck.winner = player;
+  });
+
+  this.Then(/^also to that object adding a combo with the winning game as an array of four arrays$/, function () {
+    //well nothing to do here
+  });
+
+  //MARIT ska lägga till expect också på denna
+  this.Then(/^where the inner arrays contains four different (\d+) (\d+) (\d+) (\d+) (\d+) (\d+) (\d+) (\d+) positions$/,
+    function (row1, col1, row2, col2, row3, col3, row4, col4) {
+
+
+      objectToReturnFromWinCheck.combo = [[+row1, +col1], [+row2, +col2], [+row3, +col3], [+row4, +col4]]
+
+      console.log("HÄR", objectToReturnFromWinCheck)
+    });
 
 }
