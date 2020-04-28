@@ -43,13 +43,14 @@ class Game {
     $button.innerHTML = '<button>Spela igen</button>';
     $('.message').append($button);
 
+
   }
 
   addEventListener() {
 
     $('.message').addEventListener('click', event => {
 
-      if (event.target.closest('again')) {
+      if (event.target.closest('.again')) {
         this.start();
       }
 
