@@ -47,10 +47,12 @@ Feature: Winning Connect 4
       | 2      | 2    | 6    | 3    | 5    | 4    | 4    | 5    | 3    |
       | 2      | 1    | 6    | 2    | 5    | 3    | 4    | 4    | 3    |
 
-
-
-  #Denna ska fyllas på
   Scenario: Return an object when it is a draw
+    Given that the game is a draw
+    Then the method shall return an object with the string draw and winner as property
 
-  #Denna ska fyllas på
-  Scenario: If no one wins and there is not a draw
+
+  Scenario: Provided the game is to continue, no winning move nor a draw
+    Given that no player wins and the game is not a draw
+    Then the method shall return false
+
