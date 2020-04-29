@@ -29,9 +29,7 @@ Feature: Winning Connect 4
     Then the message "Gul vann!" shows that yellow won
 
   Scenario: Play again button
-    Given that the game is over
-    And that there is a button in the message element with the class again
-    Then I should be able to restart the game
+    Given that there is a button in the message element with the class again
 
   #Class Board method winCheck()
   Scenario Outline: Return an object when a player has won

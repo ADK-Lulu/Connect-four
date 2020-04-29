@@ -8,6 +8,7 @@ module.exports = function () {
   let startWasCalled = false;
   let overWasCalled = false;
   let game = new Game();
+  let won;
 
 
   class TestGame extends Game {
@@ -40,7 +41,7 @@ module.exports = function () {
   });
 
   this.Given(/^that the argument won has the value (\d+.\d+)$/, function (decimal) {
-    won = decimal;
+    won = +decimal;
   });
 
   this.Given(/^that the argument won has the value ''$/, function () {
@@ -48,10 +49,9 @@ module.exports = function () {
   });
 
   this.Given(/^that the argument won has the value (\d+)$/, function (numberThree) {
-    won = numberThree;
+    won = +numberThree;
   });
 
-  //Måste fixa i scenario till scenario outline? 
   this.Then(/^the error "([^"]*)" will be thrown$/, function (errorMessage) {
     expect(() => game.over(won)).to.throw(errorMessage);
   });
@@ -84,24 +84,10 @@ module.exports = function () {
     expect($('.message').innerHTML).to.equal(winYellow);
   });
 
-  this.Given(/^that the game is over$/, function () {
-    if (won === "draw" || won === 1 || won === 2) {
-      expect(overWasCalled, 'The method was not called correctly').to.be.true;
-    }
-  });
-
   this.Given(/^that there is a button in the message element with the class again$/, function () {
     let againButton = $$('.message > button > .again');
     expect(againButton).to.exist;
   });
-
-  this.Then(/^I should be able to restart the game$/, function () {
-    if (won === "draw" || won === 1 || won === 2) {
-      expect(addEventListenerWasCalled, 'The method was not called correctly').to.be.true;
-      expect(startWasCalled, 'The method was not called correctly').to.be.true;
-    }
-  });
-
 
   //Start of test av Board winCheck()
   this.Given(/^that a player has won$/, function () {
