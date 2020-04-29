@@ -54,19 +54,19 @@ class Board {
     }
     //Sätta egenskapen playInProgress till true.
     this.playInProgress = true;
-    
+
     //Sätta ut brickan tillfälligt högst upp i kolumnen.Loopar igenom matrix och om row=0 sätts det till värdet av currentPlayer.
     //Ta bort brickan om den kan falla längre ner.
     for (let row = 0; row < this.matrix.length; row++) {
       if (this.matrix[row][column] === 0) {
         this.matrix[row][column] = this.currentPlayer;
-        
+
         //Anropa metoden render
         this.render();
-        
+
         //Anropa den asynkrona hjälpmetoden sleep för att pausa i 50 ms.
         await sleep(50);
-        
+
         //Om det går: flytta brickan ett steg ner i kolumnen och upprepa från steg 3.
         if (row + 1 < 6) {
           if (this.matrix[row + 1][column] !== 0) {
@@ -98,109 +98,104 @@ class Board {
     this.playInProgress = false;
     return true;
   }
-  
-  //Ska titta på hela brädet och kontrollera om någon har vunnit eller om det har blivit oavgjort.
-  //Om någon har vunnit ska metoden returnera ett objekt.Objektet ska ha egenskaperna winner satt till vinnaren(1 eller 2),
-  //samt combo - en array av 4 arrayer, där varje inre array är en position på brädet[radnummer, kolumnnummer].
-  //Om det har blivit oavgjort ska metoden returnera ett objekt med egenskapen winner satt till strängen “draw”.
-  //Om ingen har vunnit och det inte har blivit oavgjort ska metoden returnera värdet false.
 
   winCheck() {
     let winnerObject = {};
     let combo = [];
 
-    
     let winOffset = [
-          
       [[0, 0], [0, 1], [0, 2], [0, 3]],     //en array för lodrätt
       [[0, 0], [1, 0], [2, 0], [3, 0]],      // en array för vågrätt
       [[0, 0], [1, 1], [2, 2], [3, 3]],     //en array för diagonal från vänster
       [[0, 0], [1, -1], [2, -2], [3, -3]]      //en array för diagonal från höger
-    ]
-    
+    ];
+
     for (let row = 0; row < 6; row++) {
       for (let col = 0; col < 7; col++) {
         for (let w of winOffset) {
-          let slots = w.map(([r, c]) => this.matrix[row + r] && this.matrix[row + r][col + c]).join('');
-         
+          let slots = w.map(([r, c]) =>
+            this.matrix[row + r] && this.matrix[row + r][col + c]).join('');
           let countMoves = 0;
           let gameSlots = this.matrix.flat();
+
           for (let slot of gameSlots) {
             if (slot !== 0) {
               countMoves++
             }
-          }    
-          
+          }
+
           if (slots === '1111' || slots === '2222') {
             for (let win of w) {
               combo.push([row + win[0], col + win[1]]);     //jag har fått hjälp med denna 
             }
-          
+
             return winnerObject = {
               winner: +slots[0],
               combo: combo
             }
-          }
-           else if (countMoves === 42) {
+          } else if (countMoves === 42) {
             return winnerObject = {
               winner: 'draw'
             }
           }
-        }        
-      } 
+        }
+      }
     }
-      return false;
+    return false;
   }
 
-      render() {
-        //Hittar första elementet med klassen board
-        //Gör matrix till en array och letar igenom den, om den hittar något som är 0, 1 eller 2
-        //byter den ut det till klassen red, yellow eller låter det vara vitt. 
-        $('.board').innerHTML = `
+  render() {
+    //Hittar första elementet med klassen board
+    //Gör matrix till en array och letar igenom den, om den hittar något som är 0, 1 eller 2
+    //byter den ut det till klassen red, yellow eller låter det vara vitt. 
+    $('.board').innerHTML = `
       ${this.matrix.flat().map((x, i) => `
         <div class="${['', 'red', 'yellow'][x]}">
           <div></div>
         </div>
       `).join('')}
     `;
-
-      }
-  
-  //Metoden ska ta emot inargumentet combo - en array skapad enligt specifikationerna som finns angivna för metoden winCheck.
-//Metoden ska hitta de fyra div - element som motsvarar positionerna angivna i combo och lägga till css - klassen win till vart och ett av dessa div - element.
-//Metoden ska använda hjälpmetoden $ för att ta tag i rätt element i DOM: en.
-
+  }
 
   markWin(combo) {
 
-    
-
-  }
-  
-  
-      //lyssnar efter click-händelser till elementet med css-klassen board i DOM:en.
-      //Listar ut index för columner och skickar till makeMove. 
-  
-      addEventListener() {
-
-        this.listener = event => {
-          let $clicked = event.target.closest('.board>div');
-          if (!$clicked) { return }
-          let $allClicked = [...$$('.board>div')];
-          let index = $allClicked.indexOf($clicked);
-          let column = index % 7;
-          this.makeMove(column);
-
+    //loopar igenom arrayen-combo
+    for (let div of combo) {
+      let rowOfWin = div[0];
+      let colOfWin = div[1];
+      let position = rowOfWin * 7 + colOfWin + 1; //Räkna ut vilken ruta som motsvarar positionen
+      let markedPosition;
+      //Loopar igenom alla ruton på spelplanen
+      for (let i = 0; i <= 42; i++) {
+        //Om rutan inte är samma som vinst-positionen, gå vidare
+        if (i !== position) { continue }
+        else {
+          //Om man kommer till positionen, rutan och lägg till klassen win på den.
+          markedPosition = $(".board > div:nth-child(" + i + ")");
+          markedPosition.classList.add('win');
         }
-        $('.board').addEventListener('click', this.listener);
       }
-      /*Metoden ska ta bort händelselyssnaren lagrad i egenskapen listener 
-      från elementet med css-klassen board i DOM:en.*/
-      removeEventListener() {
-        $('.board').removeEventListener('click', this.listener);
-      }
-
     }
-  
+  }
+  //lyssnar efter click-händelser till elementet med css-klassen board i DOM:en.
+  //Listar ut index för columner och skickar till makeMove. 
+  addEventListener() {
+    this.listener = event => {
+      let $clicked = event.target.closest('.board>div');
+      if (!$clicked) { return }
+      let $allClicked = [...$$('.board>div')];
+      let index = $allClicked.indexOf($clicked);
+      let column = index % 7;
+      this.makeMove(column);
+    }
+    $('.board').addEventListener('click', this.listener);
+  }
+
+  removeEventListener() {
+    $('.board').removeEventListener('click', this.listener);
+  }
+
+}
+
 // make it possible to test on backend
 if (typeof global !== 'undefined') { global.Board = Board };
