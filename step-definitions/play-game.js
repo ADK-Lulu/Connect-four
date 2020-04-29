@@ -40,11 +40,11 @@ module.exports = function () {
   });
 
   this.When(/^the argument is (\d+)$/, function (integerThree) {
-    currentPlayer = integerThree;
+    currentPlayer = +integerThree;
   });
 
   this.When(/^the argument is (\d+.\d+)$/, function (decimal) {
-    currentPlayer = decimal;
+    currentPlayer = +decimal;
   });
 
   this.Then(/^the machine will throw "([^"]*)"$/, function (messagetoThrow) {
