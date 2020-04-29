@@ -4,12 +4,16 @@ class Game {
 
     this.addEventListener();
     this.start();
-
   }
 
   start() {
 
+    this.player1 = prompt('Vad heter spelare 1?');
+    if (this.player1 === '' || this.player1 === null) { this.player1 = 'Röd' }
+    this.player2 = prompt('Vad heter spelare 2?');
+    if (this.player2 === '' || this.player2 === null) { this.player2 = 'Gul' }
     this.board = new Board(this);
+
   }
 
 
@@ -20,8 +24,8 @@ class Game {
       throw (new Error('player must be 1 or 2'));
     }
 
-    $message.innerHTML = player === 1 ? 'Röds tur...'
-      : player === 2 ? 'Guls tur...'
+    $message.innerHTML = player === 1 ? `${this.player1}s tur...`
+      : player === 2 ? `${this.player2}s tur...`
         : "";
   }
 
@@ -34,8 +38,8 @@ class Game {
     }
 
     $('.message').innerHTML = won === "draw" ? "Det blev oavgjort!"
-      : won === 1 ? "Röd vann!"
-        : won === 2 ? "Gul vann!"
+      : won === 1 ? `${this.player1} vann!`
+        : won === 2 ? `${this.player2} vann!`
           : "";
 
     let $button = document.createElement('button');
