@@ -68,7 +68,7 @@ module.exports = function () {
   this.When(/^the players input their names$/, function () {
     game = new Game();
     let names = ['Anna', 'Jonas'];
-    global.prompt = () => names.unshift();
+    global.prompt = () => names.shift();
     game.start();
 
   });

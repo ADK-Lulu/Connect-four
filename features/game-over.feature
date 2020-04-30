@@ -54,3 +54,9 @@ Feature: Winning Connect 4
     Given that no player wins and the game is not a draw
     Then the method shall return false
 
+  #Class Board method markWin(combo)
+
+  Scenario: Mark a win
+    Given that there is a combo
+    Then there should be something with the class win
+
