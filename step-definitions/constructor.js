@@ -6,21 +6,26 @@ module.exports = function () {
 
   let addEventListenerWasCalled = false;
   let startWasCalled = false;
-
-
+  let tellTurnWasCalled = false; 
+  let tellCurrentPlayer = false;
+  
   class TestGame extends Game {
 
+    
+    start() {
+      this.board = new TestBoard(this);
+      startWasCalled = true;
+    }
     addEventListener() {
       addEventListenerWasCalled = true;
 
     }
 
-    start() {
 
-      startWasCalled = true;
+    tellTurn(player) {
+      tellTurnWasCalled = true;
+      (player === 1 || player === 2 ? tellCurrentPlayer = true : '');
     }
-
-
   }
 
   addEventListenerBoardWasCalled = false;
@@ -34,6 +39,7 @@ module.exports = function () {
     render() {
       renderWasCalled = true;
     }
+    
   }
 
   let testBoard;
@@ -124,12 +130,12 @@ module.exports = function () {
   //Scenario: The constructor should call the correct methods when a new game is created
   //denna är OK
   this.When(/^a new game is started\(\)$/, function () {
-    testBoard = new TestBoard(game);
+    testBoard = new TestBoard(testGame);
   });
 
   //Denna är OK av Thomas
   this.Then(/^the constructor should call addEventListener$/, function () {
-    testBoard = new TestBoard(game);
+    testBoard = new TestBoard(testGame);
     expect(addEventListenerBoardWasCalled,
       'the method was not called'
     ).to.be.true;
@@ -137,17 +143,27 @@ module.exports = function () {
 
   //Denna är OK av Thomas
   this.Then(/^the constructor should call the method render$/, function () {
-    testBoard = new TestBoard(game);
+    testBoard = new TestBoard(testGame);
     expect(renderWasCalled,
       'the method was not called'
     ).to.be.true;
 
   });
-  //TODO funkar inte, kommenterat bort för att kunna fortsätta
+ 
+  //tror att denna funkar nu/jennie
+  
   this.Then(/^it should call tellTurn with currentPlayer as an argument$/, function () {
-    // expect(testGame.tellTurn(currentPlayer)).to.have.argument(currentPlayer,
-    //   'The wrong argument is used'
-    // )
+    testGame = new TestGame();
+    testBoard = new TestBoard(testGame);
+    expect(tellTurnWasCalled,
+      'The method was not called'
+    ).to.be.true;
+    
+    expect(tellCurrentPlayer,
+      'The argument should be currentPlayer'
+    ).to.be.true;
+    
+      
   });
 
   //Scenario: Render shall change color on the div-elements in DOM depending on which player is the current one
