@@ -38,3 +38,6 @@ Feature: Play Connect 4
       | playerNumber | message       |
       | 1            | "Röds tur..." |
       | 2            | "Guls tur..." |
+
+  Scenario: players can input their names
+    When the players input their names

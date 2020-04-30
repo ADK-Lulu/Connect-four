@@ -50,7 +50,6 @@ module.exports = function () {
   this.Then(/^the machine will throw "([^"]*)"$/, function (messagetoThrow) {
     game = new Game()
     expect(() => game.tellTurn(currentPlayer)).to.throw(messagetoThrow,
-
       'The expected message is not shown'
     )
   });
@@ -64,6 +63,14 @@ module.exports = function () {
     expect($('.message').innerHTML).to.equal(message,
       'Wrong info about taking turns'
     )
+  });
+
+  this.When(/^the players input their names$/, function () {
+    game = new Game();
+    let names = ['Anna', 'Jonas'];
+    global.prompt = () => names.unshift();
+    game.start();
+
   });
 
 }
