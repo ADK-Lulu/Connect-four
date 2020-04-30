@@ -36,9 +36,9 @@ Feature: Make a move
 
   Examples:
     |column         |error                                      |
-    #|-1            |"column must be an integer between 0 and 6"|
-    |8              |"column must be an integer between 0 and 6"|
-    |"hej"          |"column must be an integer between 0 and 6"|
+    |"-1"             |"column must be an integer between 0 and 6"|
+    |"8"              |"column must be an integer between 0 and 6"|
+    |"hej"            |"column must be an integer between 0 and 6"|
 
 
   Scenario: A player makes a move

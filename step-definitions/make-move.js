@@ -41,27 +41,17 @@ module.exports = function () {
   let game = new Game();
   let board = new Board(game);
     
-  let wrongInputArgument;
+  let invalidInput;
 
-  this.Given(/^that the argument \-(\d+) is not valid$/, function (negativeNumber) {
+  this.Given(/^that the argument "([^"]*)" is not valid$/, function (invalidInput) {
    
-   // wrongInputArgument = +negativeNumber;
+    invalidInput = isNaN(+invalidInput) ? invalidInput : +invalidInput;
 
-  });
-
-  this.Given(/^that the argument (\d+) is not valid$/, function (toHighNumber) {
-    
-    wrongInputArgument = +toHighNumber;
-  });
-
-  this.Given(/^that the argument "([^"]*)" is not valid$/, function (string) {
-
-    wrongInputArgument = string;
   });
 
   this.Then(/^the method shall throw an "([^"]*)"$/, async function (expectedErrorMessage) {
 
-    expect(await board.makeMove(wrongInputArgument).throwCheck).to.throw(
+    expect(await board.makeMove(invalidInput).throwCheck).to.throw(
       Error, expectedErrorMessage, 'The method did not throw an error'
     );
   });
