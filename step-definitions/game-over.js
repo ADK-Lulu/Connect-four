@@ -9,7 +9,10 @@ module.exports = function () {
   let overWasCalled = false;
   let game = new Game();
   let won;
-
+  let currentPlayer;
+  let objectToReturnFromWinCheck = {};
+  let board;
+  let markWinWasCalled = false;
 
   class TestGame extends Game {
 
@@ -27,10 +30,12 @@ module.exports = function () {
     }
   }
 
-  let currentPlayer;
-  let objectToReturnFromWinCheck = {};
+  class TestBoard extends Board {
+    markWin() {
+      markWinWasCalled = true;
+    }
+  }
 
-  let board;
 
   this.Given(/^that the argument won has the value true$/, function () {
     won = true;
@@ -167,6 +172,19 @@ module.exports = function () {
   this.Then(/^the method shall return false$/, function () {
 
     expect(board.winCheck(), 'the method did not return false').to.be.false;
+  });
+
+  //Board-markWin()
+  this.Given(/^that there is a combo$/, function () {
+    //Vi kollar i tidigare tester om combo finns 
+    //och fungerar som den ska. 
+  });
+
+  this.Then(/^there should be something with the class win$/, function () {
+
+    let winPosition = $$('.board > div > .win');
+    expect(winPosition, 'Nothing with the class win exists').to.exist;
+
   });
 
 }
