@@ -1,4 +1,4 @@
-Feature: Play Connect 4
+Feature: Play Connect 4, constructor board
   As a poor Connect 4 player
   I want to play the game on my screen with my friends
   So that I don't need to buy it.
@@ -9,12 +9,6 @@ Feature: Play Connect 4
   Background:
     Given that a new Game is created
     And a new Board is created
-
-  #scenario för Game-constructor
-  Scenario: The constructor in the Game class should call the correct methods when a new game is started
-    When a new game is started
-    Then the constructor should call the method addEventListener
-    And the constructor should call the method start
 
   #scenario för Board-constructor
   Scenario: The constructor should set the correct properties when a new game is created
@@ -31,18 +25,4 @@ Feature: Play Connect 4
     Then the constructor should call addEventListener
     And the constructor should call the method render
     And it should call tellTurn with currentPlayer as an argument
-
-  #Scenario för render() i Board
-  Scenario Outline: Render shall change color on the div-elements in DOM depending on which player is the current one
-    When <number> is the value of the currentPlayer
-    And the currentPlayer has made a move and placed a disc on index <row> and <col>
-    Then <color> will be the chosen color on the div by help from the css-class board
-
-    Examples:
-      | number | row | col | color    |
-      | 1      | 0   | 0   | "red"    |
-      | 2      | 0   | 1   | "yellow" |
-
-  Scenario: Render should make 42 empty div elements inside of every element
-    When the matrix is rendered it should have empty div elements inside of a div
 

@@ -6,12 +6,11 @@ module.exports = function () {
 
   let addEventListenerWasCalled = false;
   let startWasCalled = false;
-  let tellTurnWasCalled = false; 
+  let tellTurnWasCalled = false;
   let tellCurrentPlayer = false;
-  
+
   class TestGame extends Game {
 
-    
     start() {
       this.board = new TestBoard(this);
       startWasCalled = true;
@@ -20,7 +19,6 @@ module.exports = function () {
       addEventListenerWasCalled = true;
 
     }
-
 
     tellTurn(player) {
       tellTurnWasCalled = true;
@@ -39,33 +37,13 @@ module.exports = function () {
     render() {
       renderWasCalled = true;
     }
-    
+
   }
 
   let testBoard;
   let testGame;
-
-  let currentPlayer;
-  let playInProgress;
-
   let game;
   let board;
-
-  //Här börjar step-definitions för Game-constructor
-  //Denna är OK av Thomas
-  this.When(/^a new game is started$/, function () {
-    testGame = new TestGame();
-  });
-  //Denna är OK av Thomas
-  this.Then(/^the constructor should call the method addEventListener$/, function () {
-    expect(addEventListenerWasCalled, 'The method was not called'
-    ).to.be.true;
-  });
-  //Denna är OK av Thomas
-  this.Then(/^the constructor should call the method start$/, function () {
-    expect(startWasCalled, 'The method was not called'
-    ).to.be.true;
-  });
 
   //Board-constructor
   //Denna är OK 
@@ -127,11 +105,15 @@ module.exports = function () {
 
   });
 
+
+
   //Scenario: The constructor should call the correct methods when a new game is created
   //denna är OK
   this.When(/^a new game is started\(\)$/, function () {
     testBoard = new TestBoard(testGame);
   });
+
+
 
   //Denna är OK av Thomas
   this.Then(/^the constructor should call addEventListener$/, function () {
@@ -149,47 +131,23 @@ module.exports = function () {
     ).to.be.true;
 
   });
- 
+
   //tror att denna funkar nu/jennie
-  
+
   this.Then(/^it should call tellTurn with currentPlayer as an argument$/, function () {
     testGame = new TestGame();
     testBoard = new TestBoard(testGame);
     expect(tellTurnWasCalled,
       'The method was not called'
     ).to.be.true;
-    
+
     expect(tellCurrentPlayer,
       'The argument should be currentPlayer'
     ).to.be.true;
-    
-      
-  });
 
-  //Scenario: Render shall change color on the div-elements in DOM depending on which player is the current one
-  this.When(/^(\d+) is the value of the currentPlayer$/, function (value) {
-    currentPlayer = value;
-  });
-
-  let nodeBoard;
-  this.When(/^the currentPlayer has made a move and placed a disc on index (\d+) and (\d+)$/, function (row, col) {
-    board = new Board(game)
-    board.matrix[row][col] = currentPlayer; //sätter gul/röd plupp på vald position
-    board.render()
-    nodeBoard = [...$$('.board > div')][col];
-  });
-
-  this.Then(/^"([^"]*)" will be the chosen color on the div by help from the css\-class board$/, function (color) {
-    //Kollar att rgbvärdet är rätt
-    let expectedColor = nodeBoard.className.includes(color)
-
-    expect(expectedColor, 'Wrong color displayed on the disc').to.be.true;
 
   });
 
-  this.When(/^the matrix is rendered it should have empty div elements inside of a div$/, function () {
-    let divInside = $('.board > div>div').innerHTML === "";
-    expect(divInside, 'There are not any empty divs inside the matrix').to.be.true;
-  });
+
 
 }
