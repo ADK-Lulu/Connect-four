@@ -25,4 +25,14 @@ Feature: Play Connect 4, tell turn game
       | 2            | "Guls tur..." |
 
   Scenario: players can input their names
-    When the players input their names
+    When the players input their names a new instance of Board shall be made
+
+  Scenario Outline: One or more player does not enter their name
+    Given that <player> does not enter a name 
+    And presses enter or cancel 
+    Then <player> should be set to <defaultColor>
+
+  Examples:
+    |player       |defaultColor|
+    |player1      |"Röd"|
+    |player2      |"Gul"|

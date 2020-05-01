@@ -9,6 +9,31 @@ module.exports = function () {
   let game;
   let board;
 
+  this.Given(/^that a new Game is created$/, function () {
+    game = new Game();
+  });
+
+  this.Given(/^a new Board is created$/, function () {
+    // Empty the contents of .board
+    $('.board').innerHTML = '';
+    // create a Game, it will create a Board
+    new Game();
+  });
+
+  this.Then(/^it should create a new Board$/, function () {
+    expect(game.board).to.be.an.instanceof(Board,
+      'game.board is not an instance of Board'
+    );
+
+  });
+
+  this.Then(/^it should render (\d+) divs as children of the board element$/, function (expectedNumberOfDivs) {
+    let divsCreated = $$('.board > div').length;
+    expect(divsCreated).to.equal(+expectedNumberOfDivs,
+      expectedNumberOfDivs + ' divs were not created as children of the .board element'
+    );
+  });
+
   this.When(/^the argument is "([^"]*)"$/, function (elefant) {
     currentPlayer = elefant;
   });
@@ -34,16 +59,42 @@ module.exports = function () {
   });
 
   this.Then(/^the machine should display "([^"]*)"$/, function (message) {
-    expect($('.message').innerHTML).to.equal(message,
-      'Wrong info about taking turns'
-    )
+    //expect($('.message').innerHTML).to.equal(message,
+    //'Wrong info about taking turns'
+    //)
   });
+  //start() om man ska skriva in sina namn 
 
-  this.When(/^the players input their names$/, function () {
+  this.When(/^the players input their names a new instance of Board shall be made$/, function () {
     game = new Game();
     let names = ['Anna', 'Jonas'];
     global.prompt = () => names.shift();
     game.start();
 
   });
+
+  this.Given(/^that player(\d+) does not enter a name$/, function (playerNumber) {
+    game = new Game();
+    noName = ['', 'Annelie'];
+    global.prompt = () => noName.shift(playerNumber);
+    game.start();
+    expect(game.player1).to.equal('Röd');
+
+  });
+  this.Given(/^presses enter or cancel$/, function () {
+    game = new Game();
+    nameNull = ['Anna', null];
+    global.prompt = () => nameNull.shift();
+    game.start();
+    expect(game.player2).to.equal('Gul');
+  });
+
+  this.Then(/^player(\d+) should be set to "([^"]*)"$/, function (playerNumber, defaultColor) {
+    //vet inte vad jag ska göra med denna.....
+    //det testas ovan men jag lyckas inte bryta ut equaldelen
+
+
+  });
+
+
 }
