@@ -7,7 +7,7 @@ module.exports = function () {
   // (only works if you have required the _async-helpers.js file)
   this.After(() => fixNoSuchWindowError(driver));
 
-  
+
 
   // ... other step definitions...
 
@@ -40,11 +40,13 @@ module.exports = function () {
 
   let game = new Game();
   let board = new Board(game);
-    
+
   let invalidInput;
 
+
+
   this.Given(/^that the argument "([^"]*)" is not valid$/, function (invalidInput) {
-   
+
     invalidInput = isNaN(+invalidInput) ? invalidInput : +invalidInput;
 
   });
@@ -57,17 +59,65 @@ module.exports = function () {
   });
 
   this.Given(/^that makeMove is called$/, function () {
-   
+    // Will do in next step
   });
 
-  this.Then(/^playInProgress shall be set to true$/, function () {
+  this.Given(/^playInProgress is set to true$/, function () {
+    board.playInProgress = true;
 
   });
 
-  this.Then(/^the method shall return null$/, function () {
-    
+  //TODO Med setter istället Denna befintliga, kollar ifall anropet  funkar, men inte ifall jag får null på riktigt i programkoden
+  this.Then(/^the method shall return null$/, async function () {
+
+    expect(await board.makeMove(3), 'PlayInProgress was true but didnt return null').to.be.null;
+
   });
 
+  this.Given(/^that the column has been filled with discs$/, function () {
+    board.matrix[0][0] = 1
+    board.matrix[1][0] = 2
+    board.matrix[2][0] = 2
+    board.matrix[3][0] = 1
+    board.matrix[4][0] = 1
+    board.matrix[5][0] = 1
+
+  });
+
+  this.When(/^a player tries to play an invalid move$/, function () {
+    //implemented in the next step
+  });
+  //TODO kanske med hjälp av setter
+  this.Then(/^the makeMove method shall return false$/, function () {
+    board.playInProgress = false;
+    expect(board.makeMove(0), 'The method did not return false, even though the column was full').to.be.false
+  });
+
+  /*
+    this.Given(/^that a player makes a valid move$/, function () {
+  
+    });
+  
+    this.And(/^playInProgress is, as i should, set to true$/, function () {
+  
+    });
+  
+  
+    this.When(/^the disc has been placed on the top of the column$/, function () {
+  
+    });
+  
+  
+    this.Then(/^the method should check if there are empty slots in the column$/, function () {
+  
+    });
+  
+  
+    this.Then(/^call on the method sleep$/, function () {
+  
+    });
+  */
 
 
 }
+

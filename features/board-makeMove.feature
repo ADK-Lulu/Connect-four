@@ -32,20 +32,21 @@ Feature: Make a move
 
   Scenario Outline: Throw an error if the wrong argument is provided
     Given that the argument <column> is not valid
-    Then the method shall throw an <error> 
+    Then the method shall throw an <error>
 
-  Examples:
-    |column         |error                                      |
-    |"-1"             |"column must be an integer between 0 and 6"|
-    |"8"              |"column must be an integer between 0 and 6"|
-    |"hej"            |"column must be an integer between 0 and 6"|
+    Examples:
+      | column | error                                       |
+      | "-1"   | "column must be an integer between 0 and 6" |
+      | "8"    | "column must be an integer between 0 and 6" |
+      | "hej"  | "column must be an integer between 0 and 6" |
 
 
   Scenario: A player makes a move
-    Given that makeMove is called 
-    Then playInProgress shall be set to true
+    Given that makeMove is called
+    And playInProgress is set to true
     And the method shall return null
-    #===================================
+
+  #===================================
   Scenario:A column on the board is full
     Given that the column has been filled with discs
     When a player tries to play an invalid move
@@ -53,7 +54,7 @@ Feature: Make a move
 
   Scenario:A valid move is made by a player
     Given that a player makes a valid move
-    When playInProgress is set to true
+    And playInProgress is, as i should, set to true
     And the disc has been placed on the top of the column
     Then the method should check if there are empty slots in the column
     And call on the method sleep
@@ -86,4 +87,5 @@ Feature: Make a move
 
 
 
-  
+
+
