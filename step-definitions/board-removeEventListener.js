@@ -12,15 +12,6 @@ module.exports = function () {
     removeEventListener() {
       removeEventListenerWasCalled = true;
     }
-
-    /*
-  let orgRemoveFunc = document.removeEventListener;
-  document.removeEventListener = (type, func){.... some code that changes a variable I use in my test...}
-  // my excpects etc
-  
-  // then restore  to real method
-  document.removeEventListener = orgRemoveFunc
-  */
   }
 
   let board = new TestBoard(game);
@@ -28,10 +19,6 @@ module.exports = function () {
   this.Given(/^that the removeEventListener function has been called$/, function () {
     board.removeEventListener();
     expect(removeEventListenerWasCalled).to.be.true;
-  });
-
-  this.Then(/^I should be able to change a variable$/, function () {
-    throw (new Error('No more tests have been written'))
   });
 
 }

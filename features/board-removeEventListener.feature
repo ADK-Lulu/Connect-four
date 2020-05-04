@@ -5,13 +5,3 @@ Feature: Play Connect 4, removeEventListener
 
   Scenario: remove the eventListener
     Given that the removeEventListener function has been called
-    Then I should be able to change a variable
-
-
-# let orgRemoveFunc = document.removeEventListener;
-#document.removeEventListener = (type, func)
-#{.... some code that changes a variable I use in my test...}
-#// my excpects etc
-
-#// then restore  to real method
-#document.removeEventListener = orgRemoveFunc
