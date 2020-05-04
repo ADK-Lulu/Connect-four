@@ -44,7 +44,7 @@ module.exports = function () {
   let invalidInput;
 
 
-
+  //====Throw an error if the wrong argument is provided====
   this.Given(/^that the argument "([^"]*)" is not valid$/, function (invalidInput) {
 
     invalidInput = isNaN(+invalidInput) ? invalidInput : +invalidInput;
@@ -57,7 +57,7 @@ module.exports = function () {
       Error, expectedErrorMessage, 'The method did not throw an error'
     );
   });
-
+  //===== A player makes a move====
   this.Given(/^that makeMove is called$/, function () {
     // Will do in next step
   });
@@ -67,7 +67,7 @@ module.exports = function () {
 
   });
 
-  //TODO Med setter istället Denna befintliga, kollar ifall anropet  funkar, men inte ifall jag får null på riktigt i programkoden
+
   this.Then(/^the method shall return null$/, async function () {
 
 
@@ -75,7 +75,7 @@ module.exports = function () {
       'PlayInProgress was true but the method did not return null').to.be.null;
 
   });
-
+  //====A column on the board is full====
   this.Given(/^that the column has been filled with discs$/, function () {
     board.matrix[0][0] = 1
     board.matrix[1][0] = 2
@@ -89,35 +89,125 @@ module.exports = function () {
   this.When(/^a player tries to play an invalid move$/, function () {
     //implemented in the next step
   });
-  //TODO kanske med hjälp av setter
+
   this.Then(/^the makeMove method shall return false$/, async function () {
     board.playInProgress = false;
     expect(await board.makeMove(0), 'the method didnt return false as expected').to.be.false;
   });
 
 
-  this.Given(/^that a player makes a valid move$/, function () {
-    //
+  //=====Scenario:A valid move is made by a player===
+  let validGame;
+  let validBoard;
+  this.Given(/^that a player makes a valid move$/, async function () {
+    validGame = new Game();
+    validBoard = new Board(validGame);
+
+    validBoard.makeMove(1);
+
   });
 
   this.Given(/^playInProgress is, as it should, set to true$/, function () {
-    //
+
+    expect(validBoard.playInProgress, 'playInProgress was not set to true').to.be.true;
   });
 
-
+  //TODO ingen aning om vad jag ska göra här
   this.When(/^the disc has been placed on the top of the column$/, function () {
     //
   });
 
-
+  //TODO och hur kollar jag det?
   this.Then(/^the method should check if there are empty slots in the column$/, function () {
     //
   });
 
-
+  //TODO hurdå? Frågat Thomas
   this.Then(/^call on the method sleep$/, function () {
     //
   });
+
+
+  //===The method checks för available slots===
+  this.When(/^there is a slot available in the column$/, function () {
+    //TODO
+  });
+
+
+  this.Then(/^the method shall move the disc one step down$/, function () {
+    //TODO
+  });
+
+
+  this.Then(/^repeat until the column is full$/, function () {
+    //TODO
+  });
+
+  //===The method winCheck is called upon to check if someone wins===
+  this.Given(/^that the method winCheck is called$/, function () {
+    TODO
+  });
+
+
+  this.When(/^it returns a truthy value$/, function () {
+    TODO
+  });
+
+
+  this.Then(/^it shall call the method removeEventListener$/, function () {
+    //TODO
+  });
+
+  //===winCheck returns an object===
+  this.Given(/^if winCheck has returned an object with the value combo$/, function () {
+    //TODO
+  });
+
+
+  this.Then(/^it shall call the method markWin with combo as an argumet\.$/, function () {
+    //TODO
+  });
+
+
+  this.Then(/^call the Game class method over with the value winner from the object returned from winCheck$/, function () {
+    //TODO
+  });
+
+
+  this.Then(/^return the value true$/, function () {
+    //TODO
+  });
+
+  //===The method shall change the current player===
+  this.Given(/^that a move is made$/, function () {
+    //TODO
+  });
+
+
+  this.When(/^it is the next players turn$/, function () {
+    //TODO
+  });
+
+
+  this.Then(/^currentPlayer shall change from (\d+) to (\d+) or from (\d+) to (\d+)$/, function (arg1, arg2, arg3, arg4, callback) {
+    //TODO
+  });
+
+
+  this.Then(/^call the Game class method tellTurn with the argument currentPlayer$/, function () {
+    //TODO
+  });
+
+
+  this.Then(/^playInProgress shall change to false$/, function () {
+    //TODO
+  });
+
+
+  this.Then(/^the method shall return the value true$/, function () {
+    //TODO
+  });
+
 
 
 
