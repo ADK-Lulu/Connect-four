@@ -37,10 +37,10 @@ module.exports = function () {
       }
 
       //populerar arrayen med aktuell vinstrad och vinnare
-      board.matrix[row1][col1] = currentPlayer
-      board.matrix[row2][col2] = currentPlayer
-      board.matrix[row3][col3] = currentPlayer
-      board.matrix[row4][col4] = currentPlayer
+      board.matrix[+row1][+col1] = currentPlayer
+      board.matrix[+row2][+col2] = currentPlayer
+      board.matrix[+row3][+col3] = currentPlayer
+      board.matrix[+row4][+col4] = currentPlayer
 
       objectToReturnFromWinCheck.combo = [[+row1, +col1], [+row2, +col2], [+row3, +col3], [+row4, +col4]]
       expect(board.winCheck()).to.deep.equal(objectToReturnFromWinCheck,
@@ -84,7 +84,7 @@ module.exports = function () {
 
   });
   //DUBBELKOLLA DENNA - kommer matrixen åt?
-  this.Then(/^the method shall return false$/, function () {
+  this.Then(/^the method board-winCheck shall return false$/, function () {
 
     expect(board.winCheck(), 'the method did not return false').to.be.false;
   });

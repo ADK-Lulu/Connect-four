@@ -11,19 +11,13 @@ module.exports = function () {
 
 
 
-  this.When(/^the argument is "([^"]*)"$/, function (elefant) {
-    currentPlayer = elefant;
+  this.When(/^the argument is "([^"]*)"$/, function (incomingWrongValue) {
+
+    currentPlayer = isNaN(+incomingWrongValue) ? incomingWrongValue : +incomingWrongValue;
   });
 
-  this.When(/^the argument is (\d+)$/, function (integerThree) {
-    currentPlayer = +integerThree;
-  });
 
-  this.When(/^the argument is (\d+.\d+)$/, function (decimal) {
-    currentPlayer = +decimal;
-  });
-
-  this.Then(/^the machine will throw "([^"]*)"$/, function (messagetoThrow) {
+  this.Then(/^the method tellTurn will throw "([^"]*)"$/, function (messagetoThrow) {
     game = new Game()
     expect(() => game.tellTurn(currentPlayer)).to.throw(messagetoThrow,
       'The expected message is not shown'
@@ -35,7 +29,7 @@ module.exports = function () {
     expect(() => game.tellTurn(+playerNumber)).to.not.throw();
   });
 
-  this.Then(/^the machine should display "([^"]*)"$/, function (message) {
+  this.Then(/^the game should display "([^"]*)"$/, function (message) {
     //expect($('.message').innerHTML).to.equal(message,
     //'Wrong info about taking turns'
     //)

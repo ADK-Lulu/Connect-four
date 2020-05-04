@@ -70,7 +70,9 @@ module.exports = function () {
   //TODO Med setter istället Denna befintliga, kollar ifall anropet  funkar, men inte ifall jag får null på riktigt i programkoden
   this.Then(/^the method shall return null$/, async function () {
 
-    expect(await board.makeMove(3), 'PlayInProgress was true but didnt return null').to.be.null;
+
+    expect(await board.makeMove(3),
+      'PlayInProgress was true but the method did not return null').to.be.null;
 
   });
 
@@ -88,35 +90,35 @@ module.exports = function () {
     //implemented in the next step
   });
   //TODO kanske med hjälp av setter
-  this.Then(/^the makeMove method shall return false$/, function () {
+  this.Then(/^the makeMove method shall return false$/, async function () {
     board.playInProgress = false;
-    expect(board.makeMove(0), 'The method did not return false, even though the column was full').to.be.false
+    expect(await board.makeMove(0), 'the method didnt return false as expected').to.be.false;
   });
 
-  /*
-    this.Given(/^that a player makes a valid move$/, function () {
-  
-    });
-  
-    this.And(/^playInProgress is, as i should, set to true$/, function () {
-  
-    });
-  
-  
-    this.When(/^the disc has been placed on the top of the column$/, function () {
-  
-    });
-  
-  
-    this.Then(/^the method should check if there are empty slots in the column$/, function () {
-  
-    });
-  
-  
-    this.Then(/^call on the method sleep$/, function () {
-  
-    });
-  */
+
+  this.Given(/^that a player makes a valid move$/, function () {
+    //
+  });
+
+  this.Given(/^playInProgress is, as it should, set to true$/, function () {
+    //
+  });
+
+
+  this.When(/^the disc has been placed on the top of the column$/, function () {
+    //
+  });
+
+
+  this.Then(/^the method should check if there are empty slots in the column$/, function () {
+    //
+  });
+
+
+  this.Then(/^call on the method sleep$/, function () {
+    //
+  });
+
 
 
 }

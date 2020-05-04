@@ -10,15 +10,16 @@ module.exports = function () {
 
   //Scenario: Render shall change color on the div-elements in DOM depending on which player is the current one
   this.When(/^(\d+) is the value of the currentPlayer$/, function (value) {
-    currentPlayer = value;
+    currentPlayer = +value;
   });
 
   let nodeBoard;
   this.When(/^the currentPlayer has made a move and placed a disc on index (\d+) and (\d+)$/, function (row, col) {
     board = new Board(game)
-    board.matrix[row][col] = currentPlayer; //sätter gul/röd plupp på vald position
+    board.matrix[+row][+col] = currentPlayer; //sätter gul/röd plupp på vald position
     board.render()
-    nodeBoard = [...$$('.board > div')][col];
+    nodeBoard = [...$$('.board > div')][+col];
+
   });
 
   this.Then(/^"([^"]*)" will be the chosen color on the div by help from the css\-class board$/, function (color) {
