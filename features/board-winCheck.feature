@@ -24,5 +24,5 @@ Feature: Play Connect 4, win check
 
   Scenario: Provided the game is to continue, no winning move nor a draw
     Given that no player wins and the game is not a draw
-    Then the method shall return false
+    Then the method board-winCheck shall return false
 

@@ -84,7 +84,7 @@ module.exports = function () {
 
   });
   //DUBBELKOLLA DENNA - kommer matrixen åt?
-  this.Then(/^the method shall return false$/, function () {
+  this.Then(/^the method board-winCheck shall return false$/, function () {
 
     expect(board.winCheck(), 'the method did not return false').to.be.false;
   });

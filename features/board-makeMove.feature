@@ -50,11 +50,11 @@ Feature: Make a move
   Scenario:A column on the board is full
     Given that the column has been filled with discs
     When a player tries to play an invalid move
-    Then the method shall return false
+    Then the makeMove method shall return false
 
   Scenario:A valid move is made by a player
     Given that a player makes a valid move
-    And playInProgress is, as i should, set to true
+    And playInProgress is, as it should, set to true
     And the disc has been placed on the top of the column
     Then the method should check if there are empty slots in the column
     And call on the method sleep
