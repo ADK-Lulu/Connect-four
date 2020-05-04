@@ -30,6 +30,15 @@ Feature: Make a move
     Given that a new Game is created
     And a new Board is created
 
+  Scenario: The method shall change the current player
+    Given that a move is made
+    When it is the next players turn
+    Then currentPlayer shall change change between 1 and 2 when taking turns
+    And every turn call the Game class method tellTurn with the argument currentPlayer
+    And playInProgress shall change to false
+    And the method shall return the value true
+
+
   Scenario Outline: Throw an error if the wrong argument is provided
     Given that the argument <column> is not valid
     Then the method shall throw an <error>
@@ -54,13 +63,15 @@ Feature: Make a move
   Scenario:A valid move is made by a player
     Given that a player makes a valid move
     And playInProgress is, as it should, set to true
-    #Nedanför detta är jag inte klar
-    #===================================
+
+
+    #============MELLAN STRECKEN OKLAR=======================
     And the disc has been placed on the top of the column
     Then the method should check if there are empty slots in the column
     And call on the method sleep
+  #============MELLAN STRECKEN OKLAR=======================
 
-  #====DETTA SCENARIO SKA ULRIKA TITTA PÅ The method checks för available slots
+  #====DETTA SCENARIO NEDAN SKA ULRIKA TITTA PÅ The method checks för available slots
   Scenario: The method checks för available slots
     When there is a slot available in the column
     Then the method shall move the disc one step down
@@ -76,12 +87,4 @@ Feature: Make a move
     Then it shall call the method markWin with combo as an argumet.
     And call the Game class method over with the value winner from the object returned from winCheck
     And return the value true
-
-  Scenario: The method shall change the current player
-    Given that a move is made
-    When it is the next players turn
-    Then currentPlayer shall change from 1 to 2 or from 2 to 1
-    And call the Game class method tellTurn with the argument currentPlayer
-    And playInProgress shall change to false
-    And the method shall return the value true
 
