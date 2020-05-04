@@ -37,9 +37,22 @@ module.exports = function () {
     );
   });*/
 
+  let removeEventListenerWasCalled = false;
+
+  class TestBoard extends Board {
+
+    removeEventListener() {
+
+      removeEventListenerWasCalled = true;
+    }
+  }
+
+
+
 
   let game = new Game();
   let board = new Board(game);
+  let validBoard = new TestBoard(game);
 
   let invalidInput;
 
@@ -97,11 +110,8 @@ module.exports = function () {
 
 
   //=====Scenario:A valid move is made by a player===
-  let validGame;
-  let validBoard;
+
   this.Given(/^that a player makes a valid move$/, async function () {
-    validGame = new Game();
-    validBoard = new Board(validGame);
 
     validBoard.makeMove(1);
 
@@ -127,7 +137,7 @@ module.exports = function () {
     //
   });
 
-
+  //DENNA TILL ULRIKA
   //===The method checks för available slots===
   this.When(/^there is a slot available in the column$/, function () {
     //TODO
@@ -145,22 +155,42 @@ module.exports = function () {
 
   //===The method winCheck is called upon to check if someone wins===
   this.Given(/^that the method winCheck is called$/, function () {
-    TODO
+    //winning game to use
+
+    validBoard.matrix = [
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0],
+      [2, 2, 2, 0, 1, 0, 0],
+      [0, 2, 1, 1, 1, 1, 0],
+      [1, 1, 1, 2, 2, 2, 0]
+    ];
   });
 
 
-  this.When(/^it returns a truthy value$/, function () {
-    TODO
+  this.When(/^it returns a truthy value$/, async function () {
+
+    let expectedReturn = { winner: 1, combo: [[4, 2], [4, 3], [4, 4], [4, 5]] }
+
+    expect(validBoard.winCheck()).to.deep.equal(expectedReturn,
+      'does not return anything truthy');
+
   });
 
+  //TODOska justeras så anropet inte behöver göras manuellt... Något är på tok. Får inte till det.
+  this.Then(/^it shall call the method removeEventListener$/, async function () {
+    validBoard.removeEventListener();
+    expect(removeEventListenerWasCalled).to.be.true;
 
-  this.Then(/^it shall call the method removeEventListener$/, function () {
-    //TODO
   });
 
   //===winCheck returns an object===
   this.Given(/^if winCheck has returned an object with the value combo$/, function () {
-    //TODO
+
+    let expectedProp = "combo";
+    expect(validBoard.winCheck()).to.have.any.keys(expectedProp,
+      'winCheck did not return an object with property combo')
+
   });
 
 

@@ -60,6 +60,7 @@ Feature: Make a move
     Then the method should check if there are empty slots in the column
     And call on the method sleep
 
+  #====DETTA SCENARIO SKA ULRIKA TITTA PÅ The method checks för available slots
   Scenario: The method checks för available slots
     When there is a slot available in the column
     Then the method shall move the disc one step down
