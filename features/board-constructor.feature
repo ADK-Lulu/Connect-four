@@ -3,9 +3,6 @@ Feature: Play Connect 4, constructor board
   I want to play the game on my screen with my friends
   So that I don't need to buy it.
 
-  # Some random scenarios (out of the many needed)
-  # (these have no When - but there will be plenty that have)
-
   Background:
     Given that a new Game is created
     And a new Board is created
