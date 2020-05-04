@@ -11,10 +11,10 @@ Feature: Winning Connect 4
     Examples:
       | value      | error message                |
       | "elephant" | "won must be 'draw', 1 or 2" |
-      | 3          | "won must be 'draw', 1 or 2" |
-      | 1.5        | "won must be 'draw', 1 or 2" |
-      | true       | "won must be 'draw', 1 or 2" |
-      | ''         | "won must be 'draw', 1 or 2" |
+      | "3"        | "won must be 'draw', 1 or 2" |
+      | "1.5"      | "won must be 'draw', 1 or 2" |
+      | "true"     | "won must be 'draw', 1 or 2" |
+      | ""         | "won must be 'draw', 1 or 2" |
 
   Scenario: Correct message shown, draw
     Given that the argument won is draw

@@ -4,57 +4,17 @@ require('./_include-all')();
 
 module.exports = function () {
 
-  let addEventListenerWasCalled = false;
-  let startWasCalled = false;
-  let overWasCalled = false;
   let game = new Game();
   let won;
-  let currentPlayer;
-  let objectToReturnFromWinCheck = {};
-  let board;
-  let markWinWasCalled = false;
 
-  class TestGame extends Game {
-
-
-    addEventListener() {
-      addEventListenerWasCalled = true;
-
+  this.Given(/^that the argument won has the value "([^"]*)"$/, function (incomingString) {
+    if (Number.isInteger(+incomingString)) {
+      incomingString = +incomingString
+    } else {
+      incomingString = incomingString;
     }
+    won = incomingString;
 
-    start() {
-      startWasCalled = true;
-    }
-    over() {
-      overWasCalled = true;
-    }
-  }
-
-  class TestBoard extends Board {
-    markWin() {
-      markWinWasCalled = true;
-    }
-  }
-
-
-  this.Given(/^that the argument won has the value true$/, function () {
-    won = true;
-  });
-
-  this.Given(/^that the argument won has the value "([^"]*)"$/, function (elephant) {
-    won = elephant;
-  });
-
-  this.Given(/^that the argument won has the value (\d+.\d+)$/, function (decimal) {
-    won = +decimal;
-  });
-
-  this.Given(/^that the argument won has the value ''$/, function () {
-    won = '';
-  });
-
-  this.Given(/^that the argument won has the value (\d+)$/, function (numberThree) {
-    won = +numberThree;
   });
 
   this.Then(/^the error "([^"]*)" will be thrown$/, function (errorMessage) {
