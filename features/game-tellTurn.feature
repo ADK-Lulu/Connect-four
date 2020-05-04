@@ -7,17 +7,17 @@ Feature: Play Connect 4, tell turn game
 
   Scenario Outline: User tries to call tellTurn() with <unvalid> value
     When the argument is <unvalid>
-    Then the machine will throw <message>
+    Then the method tellTurn will throw <message>
 
     Examples:
       | unvalid   | message                 |
       | "elefant" | "player must be 1 or 2" |
-      | 3         | "player must be 1 or 2" |
-      | 1.5       | "player must be 1 or 2" |
+      | "3"       | "player must be 1 or 2" |
+      | "1.5"     | "player must be 1 or 2" |
 
-  Scenario Outline: Machine displays <message> when it is next users time to play
+  Scenario Outline: Game displays <message> when it is next users time to play
     When player <playerNumber> has droped a disc
-    Then the machine should display <message>
+    Then the game should display <message>
 
     Examples:
       | playerNumber | message       |
@@ -28,11 +28,11 @@ Feature: Play Connect 4, tell turn game
     When the players input their names a new instance of Board shall be made
 
   Scenario Outline: One or more player does not enter their name
-    Given that <player> does not enter a name 
-    And presses enter or cancel 
+    Given that <player> does not enter a name
+    And presses enter or cancel
     Then <player> should be set to <defaultColor>
 
-  Examples:
-    |player       |defaultColor|
-    |player1      |"Röd"|
-    |player2      |"Gul"|
+    Examples:
+      | player  | defaultColor |
+      | player1 | "Röd"        |
+      | player2 | "Gul"        |
