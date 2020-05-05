@@ -11,13 +11,12 @@ module.exports = function () {
   //===Error message when won has wrong argument===
   //TODO se till att den parsar även 1.5 till nr och tar true som boolean
   this.Given(/^that the argument won has the value "([^"]*)"$/, function (incomingString) {
-    if (Number.isInteger(+incomingString)) {
-      incomingString = +incomingString
-    } else {
-      incomingString = incomingString;
-    }
-    won = incomingString;
-    console.log(typeof won, " :", won)
+
+    incomingString === "true" ? won = true
+      : incomingString === "" ? won = ""
+        : isNaN(incomingString) ? won = incomingString
+          : won = +incomingString;
+
   });
 
   this.Then(/^the error "([^"]*)" will be thrown$/, function (errorMessage) {
