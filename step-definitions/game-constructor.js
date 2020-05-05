@@ -6,9 +6,7 @@ module.exports = function () {
 
   let addEventListenerWasCalled = false;
   let startWasCalled = false;
-  let tellTurnWasCalled = false;
-  let tellCurrentPlayer = false;
-
+  
   class TestGame extends Game {
 
 
@@ -20,14 +18,7 @@ module.exports = function () {
       addEventListenerWasCalled = true;
 
     }
-
-
-    tellTurn(player) {
-      tellTurnWasCalled = true;
-      (player === 1 || player === 2 ? tellCurrentPlayer = true : '');
-    }
   }
-
   addEventListenerBoardWasCalled = false;
   renderWasCalled = false;
 
@@ -42,14 +33,8 @@ module.exports = function () {
 
   }
 
-  let testBoard;
   let testGame;
 
-  let currentPlayer;
-  let playInProgress;
-
-  let game;
-  let board;
 
   //Här börjar step-definitions för Game-constructor
   //Denna är OK av Thomas

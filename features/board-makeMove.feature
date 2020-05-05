@@ -73,7 +73,7 @@ Feature: Make a move
 
   #====DETTA SCENARIO NEDAN SKA ULRIKA TITTA PÅ The method checks för available slots
   Scenario: The method checks för available slots
-    When there is a slot available in the column
+    Given that there is a slot available in the column
     Then the method shall move the disc one step down
     And repeat until the column is full
 
