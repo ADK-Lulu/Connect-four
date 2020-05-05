@@ -55,20 +55,10 @@ module.exports = function () {
   }
   class TestGame extends Game {
 
-    over(won) {
+    over(won) { expectedSentArgumentToOver = won; }
 
-
-      expectedSentArgumentToOver = won;
-
-    }
-
-    tellTurn(player) {
-
-      expectedSentArgumentToTellTurn = player;
-    }
+    tellTurn(player) { expectedSentArgumentToTellTurn = player; }
   }
-
-
 
   let game = new Game();
   let board = new Board(game);
@@ -77,43 +67,41 @@ module.exports = function () {
   let validBoard = new TestBoard(fejkGame);
   let testBoard = new TestBoard(testGame);
 
+
   let invalidInput;
 
   //===The method shall change the current player===
   this.Given(/^that a move is made$/, async function () {
 
-    await board.makeMove(4)
+    await testBoard.makeMove(4)
   });
 
   this.When(/^it is the next players turn$/, function () {
     //down below
   });
 
-  //TODO Nästa step funkar inte... Oklart varför expectedSentArgument alltid blir 1
   this.Then(/^currentPlayer shall change change between (\d+) and (\d+) when taking turns$/, async function (one, two) {
 
-    // expect(board.currentPlayer).to.equal(+two);
-    // expect(expectedSentArgumentToTellTurn).to.equal(+one);
-    // await board.makeMove(5);
-    // expect(board.currentPlayer).to.equal(+one);
-
-    // expect(expectedSentArgumentToTellTurn).to.equal(+two);
+    expect(testBoard.currentPlayer).to.equal(+two);
+    await testBoard.makeMove(4);
+    expect(testBoard.currentPlayer).to.equal(+one);
 
   });
-
 
   this.Then(/^every turn call the Game class method tellTurn with the argument currentPlayer$/, async function () {
 
-    //IN THE STEP BEFORE
+    expect(expectedSentArgumentToTellTurn).to.equal(1)
+    await testBoard.makeMove(4)
+    expect(expectedSentArgumentToTellTurn).to.equal(2)
   });
 
   this.Then(/^playInProgress shall change to false$/, function () {
-    expect(board.playInProgress, 'playInProgress was not changed to false').to.be.false;
+    expect(testBoard.playInProgress, 'playInProgress was not changed to false').to.be.false;
   });
 
-  //TODO Hur gör man detta?
-  this.Then(/^the method shall return the value true$/, function () {
-    //TODO
+
+  this.Then(/^the method shall return the value true$/, async function () {
+    expect(await testBoard.makeMove(5)).to.be.true;
   });
 
   //====Throw an error if the wrong argument is provided====
@@ -139,7 +127,6 @@ module.exports = function () {
     board.playInProgress = true;
 
   });
-
 
   this.Then(/^the method shall return null$/, async function () {
 
@@ -212,6 +199,7 @@ module.exports = function () {
     //TODO
   });
 
+  let savedValueFromCall;
   //===The method winCheck is called upon to check if someone wins===
   this.Given(/^that the method winCheck is called$/, async function () {
     //winning game to use
@@ -224,7 +212,7 @@ module.exports = function () {
       [2, 2, 1, 1, 1, 0, 0],
       [1, 1, 1, 2, 2, 2, 0]
     ];
-    await validBoard.makeMove(5);
+    savedValueFromCall = await validBoard.makeMove(5);
   });
 
   let expectedReturn;
@@ -252,9 +240,9 @@ module.exports = function () {
 
   });
 
-
   this.Then(/^it shall call the method markWin with combo as an argumet\.$/, function () {
-    expect(expectedSentArgumentToMarkWin, 'wrong argument was delivered as an argument to markWin').to.deep.equal(expectedReturn.combo);
+    expect(expectedSentArgumentToMarkWin,
+      'wrong argument was delivered as an argument to markWin').to.deep.equal(expectedReturn.combo);
   });
 
 
@@ -263,9 +251,10 @@ module.exports = function () {
     expect(expectedSentArgumentToOver).to.equal(expectedReturn.winner);
   });
 
-  //TODO kan vi inte fimpa denna??
-  this.Then(/^return the value true$/, function () {
-    //TODO
+
+  this.Then(/^return the value true$/, async function () {
+
+    expect(savedValueFromCall).to.be.true;
   });
 
 
