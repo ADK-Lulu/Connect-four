@@ -45,6 +45,7 @@ module.exports = function () {
   let makeMoveColumn;
   let makeMoveRow;
 
+  //Mock-klass för Marits tester
   class TestBoard extends Board {
 
     removeEventListener() {
@@ -54,16 +55,21 @@ module.exports = function () {
     markWin(combo) {
       expectedSentArgumentToMarkWin = combo;
     }
+
+  }
+
+  //Mock-klass för Ulrikas tester
+  class TestBoardTwo extends Board {
     render() {
       renderWasCalled = true;
     }
 
     makeMove(column) {
       makeMoveColumn = column;
-      //makeMoveRow = row;
     }
-
   }
+
+  //Mock-klass för Marits tester
   class TestGame extends Game {
 
     over(won) { expectedSentArgumentToOver = won; }
@@ -78,7 +84,7 @@ module.exports = function () {
   let testGameTwo = new TestGame();
   let validBoard = new TestBoard(fejkGame);
   let testBoard = new TestBoard(testGame);
-  let testBoardTwo = new TestBoard(testGameTwo);
+  let testBoardTwo = new TestBoardTwo(testGameTwo);
 
   let invalidInput;
 
@@ -195,10 +201,12 @@ module.exports = function () {
     //
   });
 
-  //Ullis-kollar
+  //Tester för att kolla om en bricka "landar" som den ska
   this.Given(/^that there is a slot available in the column$/, function () {
-    //Nollställer variabeln renderWasCalled
+    //Nollställer variabeln renderWasCalled och sätter 
+    //playInProgress till true för den här instansen av "TestGame()"
     renderWasCalled = false;
+    testBoardTwo.playInProgress = true;
     testBoardTwo.matrix = [
       [0, 0, 0, 0, 0, 1, 0],
       [2, 0, 0, 0, 0, 1, 0],
@@ -208,14 +216,6 @@ module.exports = function () {
       [1, 2, 1, 2, 2, 2, 1],
     ];
 
-    console.log('Hello there', makeMoveColumn)
-    if (testBoardTwo.matrix[0][makeMoveColumn]) {
-      console.log('General Kenobi');
-      return false;
-    } else {
-      console.log('Nooooo')
-    }
-    console.log(makeMoveColumn)
     //Nollställer makeMove innan man går in i while-loopen
     //Använder while loop då vi använder en for-loop i program-koden
     makeMoveRow = 0;
@@ -231,22 +231,25 @@ module.exports = function () {
   });
 
   this.Then(/^the method shall move the disc one step down$/, function () {
-    throw (new Error('No more tests have been written'));
-    /*
-    //flytta brickan ett steg ner i kolumnen
-    if (row + 1 < 6) {
-      if (this.matrix[row + 1][column] !== 0) {
+    //Nollställ raderna
+    makeMoveRow = 0;
+    //Gå igenom raderna, om värdet är under 6
+    while (makeMoveRow + 1 < 6) {
+      if (testBoardTwo.matrix[makeMoveRow + 1][makeMoveColumn] !== 0) {
+        expect(testBoardTwo.playInProgress).to.be.true;
         break;
       }
-      else if (this.matrix[row][column] = 0) {
-        this.playInProgress = false
+      if (testBoardTwo.matrix[makeMoveRow][makeMoveColumn] = 0) {
+        testBoardTwo.playInProgress = false
+        expect(testBoardTwo.playInProgress).to.be.false;
+        break;
       }
     }
-    */
   });
 
   this.Then(/^repeat until the column is full$/, function () {
     throw (new Error('No more tests have been written'));
+    //Ulrika håller på med testerna
     //Anropa render?
   });
 
