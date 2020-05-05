@@ -71,11 +71,10 @@ Feature: Make a move
     And call on the method sleep
   #============MELLAN STRECKEN OKLAR=======================
 
-  #====DETTA SCENARIO NEDAN SKA ULRIKA TITTA PÅ The method checks för available slots
+  #====The method checks för available slots
   Scenario: The method checks för available slots
     Given that there is a slot available in the column
     Then the method shall move the disc one step down
-    And repeat until the column is full
 
   Scenario: The method winCheck is called upon to check if someone wins
     Given that the method winCheck is called
