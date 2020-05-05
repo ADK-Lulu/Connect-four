@@ -33,15 +33,18 @@ module.exports = function () {
 
   //Kommentar från Ulrika: Fick hjälp av Johnny med det här steget :)
   this.Given(/^that a player has won the game$/, async function () {
+    //Gör en spelplan där spelare ett håller på att vinna
     board.matrix = [
       [0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0, 0]
+      [0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 1, 2, 0, 0, 0],
+      [0, 0, 1, 2, 0, 0, 0],
+      [0, 0, 1, 2, 0, 0, 0]
     ];
-    await board.makeMove(0);
+    //Väntar på att makeMove lägger en bricka i column tre så att spelare
+    //1 vinner.
+    await board.makeMove(2);
 
   });
 
