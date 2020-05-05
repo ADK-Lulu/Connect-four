@@ -41,17 +41,28 @@ module.exports = function () {
   let expectedSentArgumentToMarkWin;
   let expectedSentArgumentToOver;
   let expectedSentArgumentToTellTurn;
+  let renderWasCalled = false;
+  let makeMoveColumn;
+  let makeMoveRow;
+
   class TestBoard extends Board {
 
     removeEventListener() {
-
       removeEventListenerWasCalled = true;
     }
 
     markWin(combo) {
-
       expectedSentArgumentToMarkWin = combo;
     }
+    render() {
+      renderWasCalled = true;
+    }
+
+    makeMove(column) {
+      makeMoveColumn = column;
+      //makeMoveRow = row;
+    }
+
   }
   class TestGame extends Game {
 
@@ -64,9 +75,10 @@ module.exports = function () {
   let board = new Board(game);
   let testGame = new TestGame()
   let fejkGame = new TestGame()
+  let testGameTwo = new TestGame();
   let validBoard = new TestBoard(fejkGame);
   let testBoard = new TestBoard(testGame);
-
+  let testBoardTwo = new TestBoard(testGameTwo);
 
   let invalidInput;
 
@@ -183,21 +195,61 @@ module.exports = function () {
     //
   });
 
-  //DENNA TILL ULRIKA
-  //===The method checks för available slots===
-  this.When(/^there is a slot available in the column$/, function () {
-    //TODO
-  });
+  //Ullis-kollar
+  this.Given(/^that there is a slot available in the column$/, function () {
+    //Nollställer variabeln renderWasCalled
+    renderWasCalled = false;
+    testBoardTwo.matrix = [
+      [0, 0, 0, 0, 0, 1, 0],
+      [2, 0, 0, 0, 0, 1, 0],
+      [2, 0, 0, 0, 0, 1, 0],
+      [1, 0, 0, 1, 2, 2, 0],
+      [2, 1, 1, 2, 1, 2, 0],
+      [1, 2, 1, 2, 2, 2, 1],
+    ];
 
+    console.log('Hello there', makeMoveColumn)
+    if (testBoardTwo.matrix[0][makeMoveColumn]) {
+      console.log('General Kenobi');
+      return false;
+    } else {
+      console.log('Nooooo')
+    }
+    console.log(makeMoveColumn)
+    //Nollställer makeMove innan man går in i while-loopen
+    //Använder while loop då vi använder en for-loop i program-koden
+    makeMoveRow = 0;
+    while (makeMoveRow < testBoardTwo.matrix.length) {
+      if (testBoardTwo.matrix[makeMoveRow][makeMoveColumn] === 0) {
+        testBoardTwo.matrix[makeMoveRow][makeMoveColumn] = testBoardTwo.currentPlayer;
+      }
+      testBoardTwo.render();
+      expect(renderWasCalled).to.be.true;
+      makeMoveRow++
+    }
+
+  });
 
   this.Then(/^the method shall move the disc one step down$/, function () {
-    //TODO
+    throw (new Error('No more tests have been written'));
+    /*
+    //flytta brickan ett steg ner i kolumnen
+    if (row + 1 < 6) {
+      if (this.matrix[row + 1][column] !== 0) {
+        break;
+      }
+      else if (this.matrix[row][column] = 0) {
+        this.playInProgress = false
+      }
+    }
+    */
   });
-
 
   this.Then(/^repeat until the column is full$/, function () {
-    //TODO
+    throw (new Error('No more tests have been written'));
+    //Anropa render?
   });
+
 
   let savedValueFromCall;
   //===The method winCheck is called upon to check if someone wins===
