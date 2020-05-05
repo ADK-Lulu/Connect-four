@@ -247,13 +247,6 @@ module.exports = function () {
     }
   });
 
-  this.Then(/^repeat until the column is full$/, function () {
-    throw (new Error('No more tests have been written'));
-    //Ulrika håller på med testerna
-    //Anropa render?
-  });
-
-
   let savedValueFromCall;
   //===The method winCheck is called upon to check if someone wins===
   this.Given(/^that the method winCheck is called$/, async function () {
