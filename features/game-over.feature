@@ -20,13 +20,20 @@ Feature: Winning Connect 4
     Given that the argument won is draw
     Then the message "Det blev oavgjort!" is shown
 
-  Scenario: Correct message shown, red won
-    Given that the argument won is 1 for red
-    Then the message "Röd vann!" shows that red won
+  Scenario Outline: Correct message shown, depending on winner
+    Given that the argument <won> is provided
+    Then the winning players name <value> shall be seen in a <message> on the screen
 
-  Scenario: Correct message shown, yellow won
-    Given that the argument won is 2 for yellow
-    Then the message "Gul vann!" shows that yellow won
+    Examples:
+      | won | value    | message        |
+      | 1   | "Röd"    | "Röd vann!"    |
+      | 1   | "Anders" | "Anders vann!" |
+      | 1   | "Sonny"  | "Sonny vann!"  |
+      | 2   | "Gul"    | "Gul vann!"    |
+      | 2   | "Agnes"  | "Agnes vann!"  |
+      | 2   | "Sara"   | "Sara vann!"   |
+
+
 
   Scenario: Play again button
     Given that there is a button in the message element with the class again
