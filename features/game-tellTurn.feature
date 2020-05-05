@@ -5,24 +5,7 @@ Feature: Play Connect 4, tell turn game
 
   #(tellTurn() ska ta emot inargumentet player som ska vara ett heltal (1 eller 2).
 
-  Scenario Outline: User tries to call tellTurn() with <unvalid> value
-    When the argument is <unvalid>
-    Then the method tellTurn will throw <message>
-
-    Examples:
-      | unvalid   | message                 |
-      | "elefant" | "player must be 1 or 2" |
-      | "3"       | "player must be 1 or 2" |
-      | "1.5"     | "player must be 1 or 2" |
-
-  Scenario Outline: Game displays <message> when it is next users time to play
-    When player <playerNumber> has droped a disc
-    Then the game should display <message>
-
-    Examples:
-      | playerNumber | message       |
-      | 1            | "Röds tur..." |
-      | 2            | "Guls tur..." |
+  
 
   Scenario: players can input their names
     When the players input their names a new instance of Board shall be made
@@ -36,3 +19,23 @@ Feature: Play Connect 4, tell turn game
       | player  | defaultColor |
       | player1 | "Röd"        |
       | player2 | "Gul"        |
+      
+  Scenario Outline: CurrentPlayer is set to <unvalid>
+    When the argument is <unvalid>
+    Then the method tellTurn will throw <message>
+
+    Examples:
+      | unvalid   | message                 |
+      | "elefant" | "player must be 1 or 2" |
+      | "3"       | "player must be 1 or 2" |
+      | "1.5"     | "player must be 1 or 2" |
+
+  Scenario Outline: Game displays <message> when it is next users time to play
+    Given that the players has not entered their names 
+    When <playerNumber> has droped a disc
+    Then the game should display <message>
+
+    Examples:
+      | playerNumber | message       |
+      | player1      | "Röds tur..." |
+      | player2      | "Guls tur..." |
