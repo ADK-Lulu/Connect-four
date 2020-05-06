@@ -27,3 +27,7 @@ Feature: Play Connect 4, tell turn game
       | playerNumber | message       |
       | player1      | "Röds tur..." |
       | player2      | "Guls tur..." |
+
+  Scenario: A players name ends with s
+  When a players name ends with the letter 's'
+  Then the letter shall be replaced with an empty string

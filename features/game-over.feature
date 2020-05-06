@@ -4,7 +4,6 @@ Feature: Winning Connect 4
   I want that someone can win a game of Connect 4
   So that the perfectionist in me can be happy
 
-  #Class Game, The method over(won)
   Scenario Outline: Error message when won has wrong argument
     Given that the argument won has the value <value>
     Then the error <error message> will be thrown
@@ -33,8 +32,6 @@ Feature: Winning Connect 4
       | "Gul"     | "Röd"       | 2   | "Röd vann!"      |
       | "Frida"   | "Anna-Lena" | 1   | "Frida vann!"    |
       | "Ronja"   | "Fridolin"  | 2   | "Fridolin vann!" |
-
-
 
   Scenario: Play again button
     Given that there is a button in the message element with the class again
