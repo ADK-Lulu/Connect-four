@@ -3,14 +3,11 @@ Feature: Play Connect 4, render board
   I want to play the game on my screen with my friends
   So that I don't need to buy it.
 
-  # Some random scenarios (out of the many needed)
-  # (these have no When - but there will be plenty that have)
 
   Background:
     Given that a new Game is created
     And a new Board is created
 
-  #Scenario för render() i Board
   Scenario Outline: Render shall change color on the div-elements in DOM depending on which player is the current one
     When <number> is the value of the currentPlayer
     And the currentPlayer has made a move and placed a disc on index <row> and <col>
