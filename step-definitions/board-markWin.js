@@ -1,11 +1,8 @@
-// This requires Game, Board, sleep, $ and $$ as globals
-// (do this in each step-definition file in this project)
 require('./_include-all')();
 require('./_async-helpers.js');
 
 module.exports = function () {
   this.After(() => fixNoSuchWindowError(driver));
-
 
   let markWinWasCalled = false;
   let testCombo;
@@ -29,7 +26,6 @@ module.exports = function () {
     expect(winPosition, 'Nothing with the class win exists').to.exist;
   });
 
-  //Kommentar från Ulrika: Fick hjälp av Johnny med det här steget :)
   this.Given(/^that a player has won the game$/, async function () {
     board.matrix = [
       [0, 0, 0, 0, 0, 0, 0],
@@ -50,7 +46,6 @@ module.exports = function () {
   });
 
   this.Given(/^that each element is an "([^"]*)" with (\d+) numbers$/, function (innerCombo, comboNumber) {
-
     for (let comboArray of testCombo) {
       expect(comboArray).to.be.an(innerCombo,
         'The inner combo should be an array').to.have.lengthOf(+comboNumber,
