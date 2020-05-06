@@ -5,17 +5,16 @@ require('./_include-all')();
 module.exports = function () {
 
   let game = new Game();
+  let board = new Board(game);
   let currentPlayer;
   let objectToReturnFromWinCheck = {};
-  let board;
-
-  //Start of test av Board winCheck()
+  
   this.Given(/^that a player has won$/, function () {
-    //inget speciellt här
+    //nothing to test here
   });
 
   this.Then(/^the method shall return un object with player (\d+) on the property winner$$/, function (player) {
-    //adding playerNr to my:
+    
     currentPlayer = +player;
     objectToReturnFromWinCheck.winner = currentPlayer;
   });
@@ -26,17 +25,12 @@ module.exports = function () {
 
   this.Then(/^where the inner arrays contains four different (\d+) (\d+) (\d+) (\d+) (\d+) (\d+) (\d+) (\d+) positions$/,
     function (row1, col1, row2, col2, row3, col3, row4, col4) {
-      game = new Game()
-      board = new Board(game)
-
-      //tömmer arrayen och sätter allt till 0
+      //empty the array and set all elements to 0
       for (let i = 0; i < board.matrix.length; i++) {
         for (let j = 0; j < board.matrix[i].length; j++) {
           board.matrix[i][j] = 0
         }
       }
-
-      //populerar arrayen med aktuell vinstrad och vinnare
       board.matrix[+row1][+col1] = currentPlayer
       board.matrix[+row2][+col2] = currentPlayer
       board.matrix[+row3][+col3] = currentPlayer
@@ -49,9 +43,7 @@ module.exports = function () {
     });
 
   this.Given(/^that the game is a draw$/, function () {
-    game = new Game()
-    board = new Board(game)
-
+   
     board.matrix = [
       [1, 1, 2, 1, 2, 2, 1],
       [2, 2, 1, 1, 1, 2, 1],
@@ -70,8 +62,6 @@ module.exports = function () {
   });
 
   this.Given(/^that no player wins and the game is not a draw$/, function () {
-    game = new Game()
-    board = new Board(game)
 
     board.matrix = [
       [0, 0, 0, 0, 0, 0, 0],
@@ -81,11 +71,11 @@ module.exports = function () {
       [2, 2, 2, 1, 1, 0, 0],
       [1, 2, 1, 2, 1, 0, 0]
     ];
-
   });
-  //DUBBELKOLLA DENNA - kommer matrixen åt?
+  
   this.Then(/^the method board-winCheck shall return false$/, function () {
 
     expect(board.winCheck(), 'the method did not return false').to.be.false;
   });
+  
 }
