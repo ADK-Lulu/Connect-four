@@ -13,26 +13,23 @@ class Board {
       [0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0]
     ];
+    
     this.currentPlayer = 1;
     this.playInProgress = false;
     this.addEventListener();
     this.render();
     game.tellTurn(this.currentPlayer);
-
   }
 
   async makeMove(column) {
-    //kolla så att column är en integer mellan 0-6 annars kasta ett fel
-    if (!Number.isInteger(column) || column < 0 || column > 6) {
 
+    if (!Number.isInteger(column) || column < 0 || column > 6) {
       throw (new Error('column must be an integer between 0 and 6'))
     }
-    //om playInprogress är true ska null returneras
     if (this.playInProgress === true) {
       return null;
     }
-    //plattar ut matrixen för att sedan i switchen kolla om det finns någon 0, dvs en vit/tom plats, i aktuell column,
-    //om det inte finns så returneras false
+
     let flatMatrix = this.matrix.flat();
 
     switch (column) {
@@ -52,22 +49,16 @@ class Board {
       case 6: if (flatMatrix.filter((item, index) => index % 7 === 6).indexOf(0) === -1) { return false };
         break;
     }
-    //Sätta egenskapen playInProgress till true.
+    
     this.playInProgress = true;
 
-    //Sätta ut brickan tillfälligt högst upp i kolumnen.Loopar igenom matrix och om row=0 sätts det till värdet av currentPlayer.
-    //Ta bort brickan om den kan falla längre ner.
     for (let row = 0; row < this.matrix.length; row++) {
       if (this.matrix[row][column] === 0) {
         this.matrix[row][column] = this.currentPlayer;
 
-        //Anropa metoden render
         this.render();
-
-        //Anropa den asynkrona hjälpmetoden sleep för att pausa i 50 ms.
         await sleep(50);
 
-        //Om det går: flytta brickan ett steg ner i kolumnen och upprepa från steg 3.
         if (row + 1 < 6) {
           if (this.matrix[row + 1][column] !== 0) {
             break;
@@ -78,19 +69,18 @@ class Board {
         }
       }
     }
-    //Anropa metoden winCheck och om den returnerar något som är truthy:
-    //a) Anropa metoden removeEventListener
+    
     let winCheck = this.winCheck();
+      
     if (winCheck) {
-      this.removeEventListener();
-      //om winCheck returnerar något med combo ska metoden this.markWin(combo) anropas 
-      if (winCheck.combo) {
+        this.removeEventListener();
+    if (winCheck.combo) {
         this.markWin(winCheck.combo);
       }
       this.game.over(winCheck.winner);
       return true;
-    }
-    //Byt spelare
+      }
+    
     this.currentPlayer === 1 ? this.currentPlayer = 2
       : this.currentPlayer = 1;
 
@@ -100,14 +90,15 @@ class Board {
   }
 
   winCheck() {
+    
     let winnerObject = {};
     let combo = [];
 
     let winOffset = [
-      [[0, 0], [0, 1], [0, 2], [0, 3]],     //en array för lodrätt
-      [[0, 0], [1, 0], [2, 0], [3, 0]],      // en array för vågrätt
-      [[0, 0], [1, 1], [2, 2], [3, 3]],     //en array för diagonal från vänster
-      [[0, 0], [1, -1], [2, -2], [3, -3]]      //en array för diagonal från höger
+      [[0, 0], [0, 1], [0, 2], [0, 3]],    
+      [[0, 0], [1, 0], [2, 0], [3, 0]],    
+      [[0, 0], [1, 1], [2, 2], [3, 3]],     
+      [[0, 0], [1, -1], [2, -2], [3, -3]]     
     ];
 
     for (let row = 0; row < 6; row++) {
@@ -115,6 +106,7 @@ class Board {
         for (let w of winOffset) {
           let slots = w.map(([r, c]) =>
             this.matrix[row + r] && this.matrix[row + r][col + c]).join('');
+          
           let countMoves = 0;
           let gameSlots = this.matrix.flat();
 
@@ -123,12 +115,10 @@ class Board {
               countMoves++
             }
           }
-
           if (slots === '1111' || slots === '2222') {
             for (let win of w) {
               combo.push([row + win[0], col + win[1]]);
             }
-
             return winnerObject = {
               winner: +slots[0],
               combo: combo
@@ -145,9 +135,7 @@ class Board {
   }
 
   render() {
-    //Hittar första elementet med klassen board
-    //Gör matrix till en array och letar igenom den, om den hittar något som är 0, 1 eller 2
-    //byter den ut det till klassen red, yellow eller låter det vara vitt. 
+
     $('.board').innerHTML = `
       ${this.matrix.flat().map((x, i) => `
         <div class="${['', 'red', 'yellow'][x]}">
@@ -159,27 +147,24 @@ class Board {
 
   markWin(combo) {
 
-    //loopar igenom arrayen-combo
     for (let div of combo) {
       let rowOfWin = div[0];
       let colOfWin = div[1];
-      let position = rowOfWin * 7 + colOfWin + 1; //Räkna ut vilken ruta som motsvarar positionen
+      let position = rowOfWin * 7 + colOfWin + 1; 
       let markedPosition;
-      //Loopar igenom alla ruton på spelplanen
+      
       for (let i = 0; i <= 42; i++) {
-        //Om rutan inte är samma som vinst-positionen, gå vidare
         if (i !== position) { continue }
         else {
-          //Om man kommer till positionen, rutan och lägg till klassen win på den.
           markedPosition = $(".board > div:nth-child(" + i + ")");
           markedPosition.classList.add('win');
         }
       }
     }
   }
-  //lyssnar efter click-händelser till elementet med css-klassen board i DOM:en.
-  //Listar ut index för columner och skickar till makeMove. 
+   
   addEventListener() {
+
     this.listener = event => {
       let $clicked = event.target.closest('.board>div');
       if (!$clicked) { return }
@@ -197,5 +182,4 @@ class Board {
 
 }
 
-// make it possible to test on backend
 if (typeof global !== 'undefined') { global.Board = Board };
