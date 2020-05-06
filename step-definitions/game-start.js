@@ -7,6 +7,7 @@ module.exports = function () {
   let game;
   
   this.Given(/^that a new Game is created$/, function () {
+    
     game = new Game();
   });
 
@@ -18,18 +19,18 @@ module.exports = function () {
   });
 
   this.Then(/^it should create a new Board$/, function () {
+    
     expect(game.board).to.be.an.instanceof(Board,
       'game.board is not an instance of Board');
   });
   
     this.Then(/^it should render (\d+) divs as children of the board element$/, function (expectedNumberOfDivs) {
+      
       let divsCreated = $$('.board > div').length;
       expect(divsCreated).to.equal(+expectedNumberOfDivs,
-        expectedNumberOfDivs + ' divs were not created as children of the .board element'
-      );
-   
+        expectedNumberOfDivs + ' divs were not created as children of the .board element');
     });
-  //start() and the prompt is tested below 
+  
   this.When(/^the players input their names a new instance of Board shall be made$/, function () {
 
     let names = ['Anna', 'Jonas'];
