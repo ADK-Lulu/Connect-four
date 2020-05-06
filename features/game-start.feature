@@ -13,16 +13,13 @@ Feature: Play Connect 4, start game
 
   Scenario: players can input their names
     When the players input their names a new instance of Board shall be made
-    And the names shall be saved in the names array
+    Then the names shall be saved in the names array
 
-  Scenario Outline: One or more player does not enter their name
-    Given that <player> does not enter a name
+  Scenario: One or more player does not enter their name
+    Given that player does not enter a name
     And presses enter or cancel
-    Then <player> should be set to <defaultColor>
+    Then player should be set to defaultColor
 
-    Examples:
-      | player  | defaultColor |
-      | player1 | "Röd"        |
-      | player2 | "Gul"        |
+    
 
   

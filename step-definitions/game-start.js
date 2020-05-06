@@ -38,7 +38,8 @@ module.exports = function () {
 
   });
 
-  this.When(/^the names shall be saved in the names array$/, function () {
+  this.Then(/^the names shall be saved in the names array$/, function () {
+    
     let nameToEnter = ['Klas', 'Bosse'];
     let nameToEnterCopy = nameToEnter.slice();
     global.prompt = () => nameToEnter.shift();
@@ -46,27 +47,26 @@ module.exports = function () {
     expect(game.names).to.deep.equal(nameToEnterCopy, 'The names was not saved in the names property');
   });
 
-  this.Given(/^that player(\d+) does not enter a name$/, function (playerNumber) {
+  this.Given(/^that player does not enter a name$/, function () {
+    //is tested below
+  });
+    
+  this.Given(/^presses enter or cancel$/, function () {  
+    //is tested below
+  });
 
+  this.Then(/^player should be set to defaultColor$/, function () {
+    
     let noName = ['', 'Annelie'];
-    global.prompt = () => noName.shift(playerNumber);
+    global.prompt = () => noName.shift();
     game = new Game();
     expect(game.names[0]).to.equal('Röd');
-
-  });
-  this.Given(/^presses enter or cancel$/, function () {
 
     let nameNull = ['Anna', null];
     global.prompt = () => nameNull.shift();
     game = new Game();
-
     expect(game.names[1]).to.equal('Gul');
   });
-
-  this.Then(/^player(\d+) should be set to "([^"]*)"$/, function (playerNumber, defaultColor) {
-
-    //no need to test this it's already tested above
-
-  });
+   
 
   }  
