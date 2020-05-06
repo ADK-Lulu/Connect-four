@@ -126,7 +126,7 @@ class Board {
 
           if (slots === '1111' || slots === '2222') {
             for (let win of w) {
-              combo.push([row + win[0], col + win[1]]);     //jag har fått hjälp med denna 
+              combo.push([row + win[0], col + win[1]]);
             }
 
             return winnerObject = {
