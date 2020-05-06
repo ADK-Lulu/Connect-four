@@ -21,17 +21,18 @@ Feature: Winning Connect 4
     Then the message "Det blev oavgjort!" is shown
 
   Scenario Outline: Correct message shown, depending on winner
-    Given that the argument <won> is provided
-    Then the winning players name <value> shall be seen in a <message> on the screen
+    Given that you have an array with two names <playerOne> and <playerTwo>
+    And the argument <won> is provided
+    Then the winning players name shall be seen in a <message> on the screen
 
     Examples:
-      | won | value    | message        |
-      | 1   | "Röd"    | "Röd vann!"    |
-      | 1   | "Anders" | "Anders vann!" |
-      | 1   | "Sonny"  | "Sonny vann!"  |
-      | 2   | "Gul"    | "Gul vann!"    |
-      | 2   | "Agnes"  | "Agnes vann!"  |
-      | 2   | "Sara"   | "Sara vann!"   |
+      | playerOne | playerTwo   | won | message          |
+      | "Röd"     | "Anders"    | 2   | "Anders vann!"   |
+      | "Gul"     | "Anders"    | 1   | "Gul vann!"      |
+      | "Sonja"   | "Sofia"     | 2   | "Sofia vann!"    |
+      | "Gul"     | "Röd"       | 2   | "Röd vann!"      |
+      | "Frida"   | "Anna-Lena" | 1   | "Frida vann!"    |
+      | "Ronja"   | "Fridolin"  | 2   | "Fridolin vann!" |
 
 
 

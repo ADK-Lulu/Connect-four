@@ -5,6 +5,7 @@ require('./_include-all')();
 module.exports = function () {
 
   let game = new Game();
+  let board = new Board(game);
   let won;
 
 
@@ -27,26 +28,33 @@ module.exports = function () {
   this.Given(/^that the argument won is draw$/, function () {
     won = "draw";
 
+    game.over(won)
+
   });
 
   this.Then(/^the message "([^"]*)" is shown$/, function (wonMessage) {
-    $('.message').innerHTML = "Det blev oavgjort!";
-    expect($('.message').innerHTML).to.equal(wonMessage);
-  });
-
-  //===Correct message shown, player1 won===
-  this.Given(/^that the argument (\d+) is provided$/, function (player) {
-
-    player === 1 ? game.player1 = player : game.player2 = player;
-
+    // $('.message').innerHTML = "Det blev oavgjort!";
+    expect($('.message').innerHTML).to.include(wonMessage);
   });
 
   //===Correct message shown, depending on winner===
-  this.Then(/^the winning players name "([^"]*)" shall be seen in a "([^"]*)" on the screen$/, function (valueOnPlayer, message) {
 
-    game.player1 === 1 ? game.player1 = valueOnPlayer : game.player2 = valueOnPlayer;
-    $('.message').innerHTML = message;
-    expect($('.message').innerHTML).to.equal(message);
+  this.Given(/^that you have an array with two names "([^"]*)" and "([^"]*)"$/, function (playerOne, playerTwo) {
+    game.names = []
+    game.names.push(playerOne);
+    game.names.push(playerTwo)
+
+  });
+
+
+  this.Given(/^the argument (\d+) is provided$/, function (nrOneorTwo) {
+    board.game.over(+nrOneorTwo);
+  });
+
+  this.Then(/^the winning players name shall be seen in a "([^"]*)" on the screen$/, function (winningMessage) {
+
+    expect($('.message').innerHTML).to.include(winningMessage);
+
   });
 
   //===Play again button===
