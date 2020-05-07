@@ -8,13 +8,13 @@ module.exports = function () {
   let board = new Board(game);
   let currentPlayer;
   let objectToReturnFromWinCheck = {};
-  
+
   this.Given(/^that a player has won$/, function () {
     //nothing to test here
   });
 
   this.Then(/^the method shall return un object with player (\d+) on the property winner$$/, function (player) {
-    
+
     currentPlayer = +player;
     objectToReturnFromWinCheck.winner = currentPlayer;
   });
@@ -35,15 +35,20 @@ module.exports = function () {
       board.matrix[+row2][+col2] = currentPlayer
       board.matrix[+row3][+col3] = currentPlayer
       board.matrix[+row4][+col4] = currentPlayer
+      //and some extra to see if wincheck finds the winning combo
+      board.matrix[0][0] = 2
+      board.matrix[0][3] = 1
+      board.matrix[0][6] = 2
+      board.matrix[5][6] = 1
 
-      objectToReturnFromWinCheck.combo = [[+row1, +col1], [+row2, +col2], [+row3, +col3], [+row4, +col4]]
+      objectToReturnFromWinCheck.combo = [[+row1, +col1], [+row2, +col2], [+row3, +col3], [+row4, +col4]];
       expect(board.winCheck()).to.deep.equal(objectToReturnFromWinCheck,
 
         'Wrong object was returned from winCheck')
     });
 
   this.Given(/^that the game is a draw$/, function () {
-   
+
     board.matrix = [
       [1, 1, 2, 1, 2, 2, 1],
       [2, 2, 1, 1, 1, 2, 1],
@@ -72,10 +77,10 @@ module.exports = function () {
       [1, 2, 1, 2, 1, 0, 0]
     ];
   });
-  
+
   this.Then(/^the method board-winCheck shall return false$/, function () {
 
     expect(board.winCheck(), 'the method did not return false').to.be.false;
   });
-  
+
 }

@@ -15,7 +15,7 @@ Feature: Play Connect 4, win check
       | 1      | 4    | 0    | 4    | 1    | 4    | 2    | 4    | 3    |
       | 1      | 0    | 2    | 1    | 2    | 2    | 2    | 3    | 2    |
       | 2      | 2    | 6    | 3    | 5    | 4    | 4    | 5    | 3    |
-      | 2      | 1    | 6    | 2    | 5    | 3    | 4    | 4    | 3    |
+      | 2      | 5    | 0    | 5    | 1    | 5    | 2    | 5    | 3    |
 
   Scenario: Return an object when it is a draw
     Given that the game is a draw
